@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void Interaction();
+    public void Interaction(PlayerManager player);
 }
 
 public interface IHighlightable

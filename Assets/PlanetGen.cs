@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class PlanetGen : MonoBehaviour
 {
-    private float width = 20;
-    private float length = 20;
+    private float width = 3;
+    private float length = 3;
 
     [SerializeField] private float horizontalScale = 2;
     [SerializeField] private float verticalScale = 2;
@@ -21,17 +21,18 @@ public class PlanetGen : MonoBehaviour
     private void GeneratePlanets()
     {
         for (float x = 0; x < width; x++)
-        {
+        {   
             for(float z = 0; z < length; z++)
             {   
-                UnityEngine.Vector3 pos = new UnityEngine.Vector3(x * horizontalScale, noiseGeneration(x, z, 6f) * verticalScale, z * horizontalScale);
+                UnityEngine.Vector3 pos = new UnityEngine.Vector3(x * horizontalScale, noiseGeneration(x, z, UnityEngine.Random.Range(5f, 10f)) * verticalScale, z * horizontalScale);
                 GameObject gen = Instantiate(planetPrefab, pos, UnityEngine.Quaternion.identity);
 
-                gen.transform.SetParent(this.transform);
+                gen.transform.SetParent(transform);
 
             }
     }
     }
+
 
     private float noiseGeneration(float xCoord, float zCoord, float noiseScale)
     {   

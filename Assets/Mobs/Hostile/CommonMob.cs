@@ -12,12 +12,10 @@ using UnityEngine.Rendering;
 public class CommonMob : MonoBehaviour, IHighlightable
 {   
     private GameObject player;
-    private float atk = 1f;
+    private float atk = 3f;
+    public float Atk {get {return atk; } }
     private float fireRate = 2f;
-    private float FireRate { get { return fireRate; } set {fireRate = value;} }
-    private PlayerManager playerManager;
-    private float movementSpeed = 3f;
-
+    public float FireRate { get { return fireRate; } set {fireRate = value;} }
     private UnityEngine.Vector3 playerPos;
     private UnityEngine.Vector3 playerVelo;
     private float interceptTime;
@@ -32,9 +30,7 @@ public class CommonMob : MonoBehaviour, IHighlightable
 
     private void Awake()
     {   
-        
         player = GameObject.FindGameObjectWithTag("Player");
-        playerManager = FindFirstObjectByType<PlayerManager>();
         bulletSpeed = bulletPrefab.GetComponent<BulletScript>().BulletSpeed;
         innacuracyDegree = UnityEngine.Random.Range(-3f, 3f);
         
@@ -69,9 +65,8 @@ public class CommonMob : MonoBehaviour, IHighlightable
 
     private void MoveTowardsPlayer()
     {   
-        float maintainDistance = 6f - Time.deltaTime;
+        float maintainDistance = 10f - Time.deltaTime;
         
-
         NavMeshAgent navAgent = GetComponent<NavMeshAgent>();
         navAgent.SetDestination(new UnityEngine.Vector3(player.transform.position.x + UnityEngine.Random.Range(-7f, 7f), transform.position.y, player.transform.position.z + maintainDistance));
     }

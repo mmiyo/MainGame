@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour
     {   
         if (!context.performed)
         return;
-
+        
         isOpen = !isOpen;
         Debug.Log(isOpen);
         inventoryChild.SetActive(isOpen);
@@ -29,5 +29,10 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddToInventory(ItemData itemData, PlayerManager player)
+    {
+        Debug.Log("added item " + itemData.itemName + " to " + player.name + " inv");
     }
 }

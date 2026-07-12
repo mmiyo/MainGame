@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPC : MonoBehaviour, IInteractable
+public class ItemSlotScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,10 +12,5 @@ public class NPC : MonoBehaviour, IInteractable
     void Update()
     {
         
-    }
-
-    public void Interaction(PlayerManager player)
-    {
-        Debug.Log("ur fat");
     }
 }

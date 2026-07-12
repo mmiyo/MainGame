@@ -21,16 +21,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject mComp_head;
      
     [Header("Movement Variables")]
-    [SerializeField] private float mov_moveSpeed = 2f;   
-    [SerializeField] private float mov_jumpForce = 2f;
+    [SerializeField] private float mov_moveSpeed = 50f;   
+    [SerializeField] private float mov_jumpForce = 5f;
     private UnityEngine.Vector2 mov_movementInput;   
-
-    [Header("Player HP")]
-    private float maxHP = 100;
-    private float minHP = 0;
-    private float currentHP;
-    public float CurrentHP { get {return currentHP;} }
-    [SerializeField] private Slider slider;
+    public InventoryManager inventoryManager;
 
     private void Awake()
     {   
@@ -38,24 +32,19 @@ public class PlayerManager : MonoBehaviour
         mComp_jumpAction = mComp_playerInput.actions.FindAction("Jump");
         mComp_rigidbody = GetComponent<Rigidbody>();
 
-
-        slider.maxValue = maxHP;
-        slider.minValue = minHP;
-
-        currentHP = maxHP;
-
+    
         mComp_rigidbody.maxLinearVelocity = 5f;
     
     } 
 
-    public void ApplyDamage(float dmgTaken)
-    {
-        currentHP = currentHP - dmgTaken;
-    }
-
     private bool isGrounded()
     {   
         return Physics.SphereCast(mComp_rigidbody.position, 0.2f, new UnityEngine.Vector3(0f, -1f, 0f),  out RaycastHit hitInfo, 0.8f, mComp_groundLayer);
+    }
+
+    public bool IsGrounded()
+    {
+        return isGrounded();
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -69,7 +58,7 @@ public class PlayerManager : MonoBehaviour
         {   
             if(hitInfo.collider.GetComponent<IInteractable>() != null)
             {   
-                hitInfo.collider.GetComponent<IInteractable>().Interaction();
+                hitInfo.collider.GetComponent<IInteractable>().Interaction(this);
                 Debug.Log("i am touching the " + hitInfo.collider.name);
             }
 
@@ -120,13 +109,14 @@ public class PlayerManager : MonoBehaviour
         {
             Jump(mov_jumpForce);
         }
-
-        slider.value = currentHP;
+    
         Look();
+        /*
         Debug.Log(mComp_rigidbody.linearVelocity.x + " x");
         Debug.Log(mComp_rigidbody.linearVelocity.y + " y");
         Debug.Log(mComp_rigidbody.linearVelocity.z + " z");
-
+        */
+        Debug.Log(grounded);
 
     }
 

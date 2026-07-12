@@ -4,7 +4,8 @@ using UnityEngine.AI;
 
 public class BulletScript : MonoBehaviour
 {   
-    private float bulletSpeed = 30f;
+    
+    private float bulletSpeed = 25f;
     public float BulletSpeed { get {return bulletSpeed;} }
 
     private void Start()
@@ -31,7 +32,7 @@ public class BulletScript : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {   
             Debug.Log("hgit player");
-            collision.gameObject.GetComponent<PlayerManager>().ApplyDamage(10f);
+            collision.gameObject.GetComponent<StatusManager>().ApplyDamage(10f);
         }
 
          
