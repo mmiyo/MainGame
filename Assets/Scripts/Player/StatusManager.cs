@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using NUnit.Framework;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,13 +17,14 @@ public class StatusManager : MonoBehaviour
     public float CurrentHP 
     { 
         get {return currentHP;} 
-        private set {currentHP = value;} 
+        private set {currentHP = Mathf.Clamp(value, 0, maxHP);} 
     }
     [SerializeField] private Slider hpBar;
 
     [Header("Fuel")]
     private float maxFuel = 100;
     private float minFuel = 0;
+    private bool isRegenerating = false;
     private float currentFuel;
     public float CurrentFuel 
     { 
@@ -55,25 +57,33 @@ public class StatusManager : MonoBehaviour
 
     public void DrainFuel(float fuelLoss)
     {
-        CurrentFuel = currentFuel - fuelLoss;
+        currentFuel = currentFuel - fuelLoss;
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        isRegenerating = false;
+
         hpBar.value = currentHP;
         fuelBar.value = currentFuel;
+
         while(playerManager.IsGrounded() && currentFuel < 100)
-        {
+        {   
+            isRegenerating = true;
             StartCoroutine(regenerateFuel());
             break;
         }
+
     }
 
     private IEnumerator regenerateFuel()
-    {           
-        yield return new WaitForSeconds(2.8f);
+    {   
+        if(isRegenerating)
+        yield return new WaitForSeconds(0.5f);
         currentFuel = currentFuel + Time.deltaTime * 10f;
+        Debug.Log("yes");
+        
           
     }
 }
