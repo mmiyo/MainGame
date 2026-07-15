@@ -116,7 +116,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log(mComp_rigidbody.linearVelocity.y + " y");
         Debug.Log(mComp_rigidbody.linearVelocity.z + " z");
         */
-        Debug.Log(grounded);
+        //Debug.Log(grounded);
 
     }
 

@@ -26,12 +26,12 @@ public class BulletScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {   
-        Debug.Log("hit the ground or whatever " + collision.gameObject.name + " is");
+        //Debug.Log("hit the ground or whatever " + collision.gameObject.name + " is");
         DestroyOnHit();
 
         if(collision.gameObject.CompareTag("Player"))
         {   
-            Debug.Log("hgit player");
+            //Debug.Log("hgit player");
             collision.gameObject.GetComponent<StatusManager>().ApplyDamage(10f);
         }
 

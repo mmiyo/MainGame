@@ -7,26 +7,26 @@ using UnityEngine.InputSystem;
  
 public class InventoryManager : MonoBehaviour
 {   
-    private PlayerInput iComp_playerInput;
     private bool isOpen = false;
     private GameObject inventoryChild;
-    private ItemData itemData;
-    [SerializeField] private GameObject inventoryRows;
-    [SerializeField] private GameObject itemSlot;
-    [SerializeField] private GameObject weaponRow;
- 
+    private InventoryRowScript row;
+    [SerializeField] private GameObject inventoryContainer;
+    [SerializeField] private GameObject inventoryRow;
+    [SerializeField] private GameObject itemSlot; 
+
     private void Awake()
     {
-        iComp_playerInput = GetComponent<PlayerInput>();
         inventoryChild = transform.GetChild(0).gameObject;
          
     }
 
     private void Start()
     {
-        GenerateSlot(ItemType.Weapon, 3, weaponRow.transform);
-
-
+        foreach(ItemType i in Enum.GetValues(typeof(ItemType)))
+        {
+            GenerateRows(i);  
+            GenerateSlot(i, 3, row.transform);
+        }
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -35,32 +35,17 @@ public class InventoryManager : MonoBehaviour
         return;
 
         isOpen = !isOpen;
-        Debug.Log(isOpen);
+        //Debug.Log(isOpen);
         inventoryChild.SetActive(isOpen);
  
     }
 
-    
-    
-    // Update is called once per frame
-    void Update()
-    {
-        foreach(ItemType i in Enum.GetValues(typeof(ItemType)))
-        {
-            GenerateRows(i, inventoryChild.transform);  
-        }
-        
-    }
-
-    //TO DO: Change generation of rows, create a prefab for rows, then reference it here. 
-    //This row prefab will contain a Row script and a horizontal layout group. And a sprite renderer obviously XDD
-    // After that, create GenerateRow(ItemType rowType, Transform pos). Pos would be the inventory container 
-    // Wherein it has the component vertical layout group that lets the rows fall in to place accordingly
-    // Once the rows are generated, use its transform as GenerateSlot()'s inventoryRow
-    private void GenerateRows(ItemType rowType, Transform pos)
-    {
-        //instantiate the rows
-        Debug.Log(rowType);
+    private void GenerateRows(ItemType rowType)
+    {   
+        Debug.Log("Generated a " + rowType + " row");
+        row = Instantiate(inventoryRow).GetComponent<InventoryRowScript>();
+        row.transform.SetParent(inventoryContainer.transform, false);
+       
     }
     
     private void GenerateSlot(ItemType slotType, int slotCount, Transform inventoryRow)
@@ -77,6 +62,13 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log("added item " + itemData.itemName + " to " + player.name + " inv." + " This is a " + itemData.itemType);
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        
+    }
 }
 
-  
+    

@@ -84,7 +84,7 @@ public class CommonMob : MonoBehaviour, IHighlightable
     {
         if(other.gameObject.CompareTag("Player"))
         {  
-            Debug.Log("player in range");
+            //Debug.Log("player in range");
             InRange = true;
         }
     }
@@ -93,7 +93,7 @@ public class CommonMob : MonoBehaviour, IHighlightable
     {
         if(other.gameObject.CompareTag("Player"))
         {  
-            Debug.Log("player out of range");
+            //Debug.Log("player out of range");
             InRange = false;
         }
     }

@@ -82,7 +82,7 @@ public class StatusManager : MonoBehaviour
         if(isRegenerating)
         yield return new WaitForSeconds(0.5f);
         currentFuel = currentFuel + Time.deltaTime * 10f;
-        Debug.Log("yes");
+        //Debug.Log("yes");
         
           
     }
