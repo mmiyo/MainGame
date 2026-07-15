@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class ItemSlotScript : MonoBehaviour
-{
+{   
+    private ItemType allowedType;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,5 +14,11 @@ public class ItemSlotScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetAllowedType(ItemType allowedSlot)
+    {   
+        allowedType = allowedSlot;
+        Debug.Log("Allowed Item is only the " + allowedSlot + " Type");
     }
 }

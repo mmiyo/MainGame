@@ -9,7 +9,7 @@ public abstract class ItemData : ScriptableObject
     public ItemType itemType;
 }
 
-    public enum Rarity {Common, Rare, Epic, Legendary, Mythical};
-    public enum ElementType {None, Ignis, Nihil, Celestial, Toxic, Frost, Aqua, } 
-    public enum ItemType {Weapon, Curio, Consumable, Throwable, Skill}
+    public enum Rarity { Common, Rare, Epic, Legendary, Mythical };
+    public enum ElementType { None, Ignis, Nihil, Celestial, Toxic, Frost, Aqua } 
+    public enum ItemType { Weapon, Curio, Consumable, Throwable, Skill }
     

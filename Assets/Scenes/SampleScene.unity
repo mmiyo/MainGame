@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   itemSlot: {fileID: 6094424592376777679, guid: 2a52691149bd38645b622df87a7031bd, type: 3}
-  weaponSlots: {fileID: 1160929361}
+  weaponRow: {fileID: 1160929361}
 --- !u!114 &157021320
 MonoBehaviour:
   m_ObjectHideFlags: 0
