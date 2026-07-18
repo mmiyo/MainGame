@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PickUpScript : MonoBehaviour, IInteractable 
+public class PickUpScript : MonoBehaviour, IInteractable
 {   
     public ItemData itemData;
     private void Awake()

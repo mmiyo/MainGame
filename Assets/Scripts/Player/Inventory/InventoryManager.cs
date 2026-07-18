@@ -5,16 +5,20 @@ using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
  
 public class InventoryManager : MonoBehaviour
 {   
     private bool isOpen = false;
     private GameObject inventoryChild;
     private InventoryRowScript row;
+    private InventoryItemUI ui;
+    private List<ItemData> inventoryData = new();
     Dictionary<ItemType, int> rowLimit = new();
     [SerializeField] private GameObject inventoryContainer;
     [SerializeField] private GameObject inventoryRow;
     [SerializeField] private GameObject itemSlot; 
+    [SerializeField] private GameObject itemUI;
 
     private void Awake()
     {
@@ -53,8 +57,8 @@ public class InventoryManager : MonoBehaviour
         row.transform.SetParent(inventoryContainer.transform, false);
         row.SetRowType(rowType);
         
-        Debug.Log("Generated a " + rowType + " row");
-        Debug.Log("Generated " + rowType + " slots");
+        /*Debug.Log("Generated a " + rowType + " row");
+        Debug.Log("Generated " + rowType + " slots");*/
         GenerateSlot(rowType, rowLimit[rowType], row.transform);
 
     }
@@ -68,9 +72,17 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    //TO DO: create a list for every generated slot prefab to store references 
+    //so that ui will be parented to those slots specifically
+    //and for AddToInventory() to dynamically add and modify 
+    //itemData whichever slot you drag and drop itemData's sprite in
+
     public void AddToInventory(ItemData itemData, PlayerManager player)
-    {
-        Debug.Log("added item " + itemData.itemName + " to " + player.name + " inv." + " This is a " + itemData.itemType);
+    {   
+        inventoryData.Add(itemData);
+        ui = Instantiate(itemUI, itemSlot.transform).GetComponent<InventoryItemUI>();
+        ui.Initialize(itemData);
+    
     }
 
     // Update is called once per frame
