@@ -21,7 +21,7 @@ public class InventoryItemUI : MonoBehaviour
     }
 
     public void Initialize(ItemData itemData)
-    {
+    {   
         iconRenderer.sprite = itemData.itemIcon;
     }
 

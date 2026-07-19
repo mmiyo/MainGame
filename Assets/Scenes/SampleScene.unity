@@ -341,7 +341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   inventoryContainer: {fileID: 1982403039}
   inventoryRow: {fileID: 8834314286400689745, guid: 0e4ef4d93f7867d48b3aafeb6ddabe5d, type: 3}
-  itemSlot: {fileID: 6094424592376777679, guid: 2a52691149bd38645b622df87a7031bd, type: 3}
+  itemSlotPrefab: {fileID: 6094424592376777679, guid: 2a52691149bd38645b622df87a7031bd, type: 3}
   itemUI: {fileID: 5321645509419476517, guid: ad84349af99bc8349a901915ed1ce4a2, type: 3}
 --- !u!114 &157021320
 MonoBehaviour:

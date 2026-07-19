@@ -14,10 +14,11 @@ public class InventoryManager : MonoBehaviour
     private InventoryRowScript row;
     private InventoryItemUI ui;
     private List<ItemData> inventoryData = new();
+    private List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
     [SerializeField] private GameObject inventoryContainer;
     [SerializeField] private GameObject inventoryRow;
-    [SerializeField] private GameObject itemSlot; 
+    [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
 
     private void Awake()
@@ -67,20 +68,24 @@ public class InventoryManager : MonoBehaviour
     {   
         for(int i = 0; i < slotCount; i++)
         {
-            ItemSlotScript slot = Instantiate(itemSlot, inventoryRow).GetComponent<ItemSlotScript>();
+            ItemSlotScript slot = Instantiate(itemSlotPrefab, inventoryRow).GetComponent<ItemSlotScript>();
             slot.SetAllowedType(slotType);
+            generatedSlots.Add(slot);
+            Debug.Log("i have " + generatedSlots.Count + " amount of slost");
         }
     }
 
-    //TO DO: create a list for every generated slot prefab to store references 
-    //so that ui will be parented to those slots specifically
-    //and for AddToInventory() to dynamically add and modify 
-    //itemData whichever slot you drag and drop itemData's sprite in
+    //TO DO: 
+    //create a sorting algorithm for generatedSlots[0] so that
+    //the inventory fills from left to right dynamically instead of
+    //the first element in the slot list AND to also include filters
+    //for weapon type and item limit for each slot
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
         inventoryData.Add(itemData);
-        ui = Instantiate(itemUI, itemSlot.transform).GetComponent<InventoryItemUI>();
+        ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
+        ui.transform.SetParent(generatedSlots[0].transform, false);
         ui.Initialize(itemData);
     
     }
