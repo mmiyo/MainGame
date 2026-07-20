@@ -13,6 +13,7 @@ public class InventoryManager : MonoBehaviour
     private GameObject inventoryChild;
     private InventoryRowScript row;
     private InventoryItemUI ui;
+    private ItemSlotScript slot;
     private List<ItemData> inventoryData = new();
     private List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
@@ -68,26 +69,37 @@ public class InventoryManager : MonoBehaviour
     {   
         for(int i = 0; i < slotCount; i++)
         {
-            ItemSlotScript slot = Instantiate(itemSlotPrefab, inventoryRow).GetComponent<ItemSlotScript>();
+            slot = Instantiate(itemSlotPrefab, inventoryRow).GetComponent<ItemSlotScript>();
             slot.SetAllowedType(slotType);
             generatedSlots.Add(slot);
-            Debug.Log("i have " + generatedSlots.Count + " amount of slost");
+            //Debug.Log("i have " + generatedSlots.Count + " amount of slost");
         }
     }
 
-    //TO DO: 
-    //create a sorting algorithm for generatedSlots[0] so that
-    //the inventory fills from left to right dynamically instead of
-    //the first element in the slot list AND to also include filters
-    //for weapon type and item limit for each slot
+    //add a for loop that runs through generatedSlots[0] and check if their 
+    //ItemSlotScript's InventoryItemUI is null, if null, 
+    //AddToInventory will instantiate itemUI on that slot.
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
         inventoryData.Add(itemData);
-        ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
-        ui.transform.SetParent(generatedSlots[0].transform, false);
-        ui.Initialize(itemData);
+        foreach(ItemSlotScript slot in generatedSlots)
+        {   
+            if(slot.CarriedItem() == null)
+            {
+                Instantiate(itemData, slot); 
+                break;  
+                //emptySlot.CarriedItem(); should be equal to the item that is to be added 
+                
+            }
+        }
+    }
     
+    private void Instantiate(ItemData data, ItemSlotScript slot)
+    {
+        ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
+        ui.transform.SetParent(slot.transform, false);
+        ui.Initialize(data);
     }
 
     // Update is called once per frame

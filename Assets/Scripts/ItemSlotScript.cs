@@ -1,23 +1,25 @@
+using System;
 using Microsoft.Unity.VisualStudio.Editor;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHandler, IEndDragHandler
 {   
     private ItemType allowedType;
-    private bool occupied = false;
-
+    private InventoryItemUI item;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+         
     }
     
 
     // Update is called once per frame
     void Update()
     {
-        
+         
     }
 
     public void SetAllowedType(ItemType allowedSlot)
@@ -26,8 +28,14 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
         //Debug.Log("Allowed Item is only the " + allowedSlot + " Type");
     }
 
-    public void DisplayItem(Image itemSprite, GameObject  item)
+    public InventoryItemUI CarriedItem()
     {
-        
+        if(transform.childCount < 0)
+        {
+            return null;
+        }
+        return null;
     }
+
+
 }
