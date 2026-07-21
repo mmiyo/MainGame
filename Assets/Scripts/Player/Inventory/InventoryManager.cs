@@ -76,29 +76,24 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    //add a for loop that runs through generatedSlots[0] and check if their 
-    //ItemSlotScript's InventoryItemUI is null, if null, 
-    //AddToInventory will instantiate itemUI on that slot.
+    //let itemslotscript knows it has an item so that it can actually
+    //return something of importance to let the loop skip through if
+    //its occupied
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
         inventoryData.Add(itemData);
         foreach(ItemSlotScript slot in generatedSlots)
         {   
-            if(slot.CarriedItem() == null)
-            {
-                Instantiate(itemData, slot); 
-                break;  
-                //emptySlot.CarriedItem(); should be equal to the item that is to be added 
-                
-            }
+            Instantiate(itemData, slot);    
         }
     }
     
-    private void Instantiate(ItemData data, ItemSlotScript slot)
-    {
+    private void Instantiate(ItemData data, ItemSlotScript emptySlot)
+    {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
-        ui.transform.SetParent(slot.transform, false);
+        ui.transform.SetParent(emptySlot.transform, false);
+        slot.CarriedItem(ui);
         ui.Initialize(data);
     }
 

@@ -6,9 +6,8 @@ using UnityEngine.EventSystems;
 
 public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHandler, IEndDragHandler
 {   
-    private ItemType allowedType;
-    private InventoryItemUI item;
-    
+    private ItemType allowedType;    
+    private InventoryItemUI itemUI; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,14 +27,20 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
         //Debug.Log("Allowed Item is only the " + allowedSlot + " Type");
     }
 
-    public InventoryItemUI CarriedItem()
-    {
-        if(transform.childCount < 0)
+    public InventoryItemUI CarriedItem(InventoryItemUI item)
+    {   
+        if(item != null)
         {
-            return null;
+            Debug.Log(item);
+            return item;
         }
-        return null;
+        return null;             
+ 
     }
+  
+
+     
+    
 
 
 }
