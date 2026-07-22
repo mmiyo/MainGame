@@ -8,6 +8,7 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
 {   
     private ItemType allowedType;    
     private InventoryItemUI itemUI; 
+    public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,8 +32,8 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
     {   
         if(item != null)
         {
-            Debug.Log(item);
-            return item;
+            itemUI = item;
+            return itemUI;
         }
         return null;             
  

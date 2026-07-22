@@ -76,24 +76,31 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    //let itemslotscript knows it has an item so that it can actually
-    //return something of importance to let the loop skip through if
-    //its occupied
+    //use getters so itemslotscript returns a value and setter to set the item it will return in carrieditem;
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
         inventoryData.Add(itemData);
         foreach(ItemSlotScript slot in generatedSlots)
         {   
-            Instantiate(itemData, slot);    
-        }
+            if(slot.ItemUI == null)
+            {   
+                Instantiate(itemData, slot);
+                slot.CarriedItem(ui);
+                Debug.Log("there is a " + slot.ItemUI);
+                break;
+            }
+            else
+            {   
+                continue;
+            }
+         }
     }
     
     private void Instantiate(ItemData data, ItemSlotScript emptySlot)
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.transform.SetParent(emptySlot.transform, false);
-        slot.CarriedItem(ui);
         ui.Initialize(data);
     }
 
