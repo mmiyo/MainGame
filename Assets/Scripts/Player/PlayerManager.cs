@@ -54,6 +54,15 @@ public class PlayerManager : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {   
+        if(context.performed)
+        {
+            HandleInteraction();
+        }
+    }
+
+    private void HandleInteraction()
+    {
+        Debug.Log("player interact key pressed");
         if(Physics.Raycast(mComp_cinemachineCamera.transform.position, mComp_cinemachineCamera.transform.forward, out RaycastHit hitInfo, 3f, mComp_interactableObjectLayer))
         {   
             if(hitInfo.collider.GetComponent<IInteractable>() != null)
