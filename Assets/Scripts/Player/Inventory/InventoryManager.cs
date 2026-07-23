@@ -101,6 +101,7 @@ public class InventoryManager : MonoBehaviour
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.transform.SetParent(emptySlot.transform, false);
+        ui.name = data.itemName;
         ui.Initialize(data);
     }
 
