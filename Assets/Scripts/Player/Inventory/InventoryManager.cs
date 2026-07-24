@@ -48,7 +48,6 @@ public class InventoryManager : MonoBehaviour
         return;
 
         isOpen = !isOpen;
-        //Debug.Log(isOpen);
         inventoryChild.SetActive(isOpen);
  
     }
@@ -59,8 +58,6 @@ public class InventoryManager : MonoBehaviour
         row.transform.SetParent(inventoryContainer.transform, false);
         row.SetRowType(rowType);
         
-        /*Debug.Log("Generated a " + rowType + " row");
-        Debug.Log("Generated " + rowType + " slots");*/
         GenerateSlot(rowType, rowLimit[rowType], row.transform);
 
     }
@@ -70,20 +67,21 @@ public class InventoryManager : MonoBehaviour
         for(int i = 0; i < slotCount; i++)
         {
             slot = Instantiate(itemSlotPrefab, inventoryRow).GetComponent<ItemSlotScript>();
-            slot.SetAllowedType(slotType);
+            slot.AllowedType(slotType);
             generatedSlots.Add(slot);
-            //Debug.Log("i have " + generatedSlots.Count + " amount of slost");
+            
         }
     }
 
-    //use getters so itemslotscript returns a value and setter to set the item it will return in carrieditem;
+    //checck if itemData is equal to slot.AllowedType then instantiate
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
+
         inventoryData.Add(itemData);
         foreach(ItemSlotScript slot in generatedSlots)
         {   
-            if(slot.ItemUI == null)
+            if(slot.ItemUI == null && slot.ItemType == itemData.itemType)
             {   
                 Instantiate(itemData, slot);
                 slot.CarriedItem(ui);
@@ -109,7 +107,6 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
          
-        
     }
 }
 

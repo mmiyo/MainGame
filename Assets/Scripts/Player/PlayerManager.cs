@@ -57,12 +57,9 @@ public class PlayerManager : MonoBehaviour
  
         if(context.performed)
         {   
-            Debug.Log(context);
             HandleInteraction();
         }
- 
 
-        
     }
 
     private void HandleInteraction()

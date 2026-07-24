@@ -9,6 +9,7 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
     private ItemType allowedType;    
     private InventoryItemUI itemUI; 
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
+    public ItemType ItemType{ get {return allowedType;}}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,10 +23,11 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
          
     }
 
-    public void SetAllowedType(ItemType allowedSlot)
+    public ItemType AllowedType(ItemType allowedSlot)
     {   
         allowedType = allowedSlot;
-        //Debug.Log("Allowed Item is only the " + allowedSlot + " Type");
+        Debug.Log("only " + allowedType + " is alloewd");   
+        return allowedType;
     }
 
     public InventoryItemUI CarriedItem(InventoryItemUI item)
