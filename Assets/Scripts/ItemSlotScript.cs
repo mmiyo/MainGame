@@ -26,7 +26,6 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
     public ItemType AllowedType(ItemType allowedSlot)
     {   
         allowedType = allowedSlot;
-        Debug.Log("only " + allowedType + " is alloewd");   
         return allowedType;
     }
 

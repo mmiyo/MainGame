@@ -17,13 +17,14 @@ public class InventoryManager : MonoBehaviour
     private List<ItemData> inventoryData = new();
     private List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
+    [SerializeField] private Canvas mainCanvas;
     [SerializeField] private GameObject inventoryContainer;
     [SerializeField] private GameObject inventoryRow;
     [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
 
     private void Awake()
-    {
+    {   
         inventoryChild = transform.GetChild(0).gameObject;
         //inv rows
         rowLimit.Add(ItemType.Weapon, 3);
@@ -31,7 +32,8 @@ public class InventoryManager : MonoBehaviour
         rowLimit.Add(ItemType.Consumable, 4);
         rowLimit.Add(ItemType.Throwable, 4);
         rowLimit.Add(ItemType.Skill, 3);
-         
+
+          
     }
 
     private void Start()
@@ -85,7 +87,6 @@ public class InventoryManager : MonoBehaviour
             {   
                 Instantiate(itemData, slot);
                 slot.CarriedItem(ui);
-                Debug.Log("there is a " + slot.ItemUI);
                 break;
             }
             else
@@ -97,7 +98,9 @@ public class InventoryManager : MonoBehaviour
     
     private void Instantiate(ItemData data, ItemSlotScript emptySlot)
     {   
+         
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
+        ui.inventoryCanvas = mainCanvas;
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = data.itemName;
         ui.Initialize(data);
