@@ -66,16 +66,17 @@ public class InventoryManager : MonoBehaviour
     
     private void GenerateSlot(ItemType slotType, int slotCount, Transform inventoryRow)
     {   
+        int slotCounter = 1;
         for(int i = 0; i < slotCount; i++)
-        {
+        {   
             slot = Instantiate(itemSlotPrefab, inventoryRow).GetComponent<ItemSlotScript>();
+            slot.name = "Slot: " + slotCounter;
+            slotCounter++;
             slot.AllowedType(slotType);
             generatedSlots.Add(slot);
             
         }
     }
-
-    //checck if itemData is equal to slot.AllowedType then instantiate
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
@@ -98,7 +99,6 @@ public class InventoryManager : MonoBehaviour
     
     private void Instantiate(ItemData data, ItemSlotScript emptySlot)
     {   
-         
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
         ui.transform.SetParent(emptySlot.transform, false);

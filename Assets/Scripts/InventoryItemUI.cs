@@ -3,15 +3,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {   
     private Image iconRenderer;
     private RectTransform rectTransform;
+    private CanvasGroup canvasGroup;
     public Canvas inventoryCanvas;
     void Awake()
     {
         iconRenderer = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
     void Start()
     {
@@ -28,15 +30,6 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void OnPointerDown(PointerEventData eventData)
     {   
         Debug.Log("clicked");
-     }
-
-    //unparent it from the slot so it can be parented to the slot it drops on. 
-    //if it doesnt drop on a slot the item is thrown away
-    public void OnDrag(PointerEventData eventData)
-    {   
-        Debug.Log("dragged");
-        Debug.Log(inventoryCanvas);
-        rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -44,9 +37,28 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         Debug.Log("held");
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {   
+        Debug.Log("dragged");
+        rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor;
+        canvasGroup.blocksRaycasts = false;
+        gameObject.transform.SetParent(inventoryCanvas.transform, true);
+    }
+
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("let go");
+        canvasGroup.blocksRaycasts = true;
     }
 
+    public void OnDrop(PointerEventData eventData)
+    {
+        Debug.Log("boop");
+    }
+    
+    
+
+  
+
+   
 }

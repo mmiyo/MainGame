@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHandler, IEndDragHandler
+public class ItemSlotScript : MonoBehaviour, IDropHandler
 {   
     private ItemType allowedType;    
     private InventoryItemUI itemUI; 
@@ -38,6 +38,19 @@ public class ItemSlotScript : MonoBehaviour//, IPointerDownHandler, IBeginDragHa
         }
         return null;             
  
+    }
+
+    //if an inventory item gets dragged to a diff slot put his goofy ahh there
+    public void OnDrop(PointerEventData eventData)
+    {
+        if(itemUI == null)
+        {        
+            Debug.Log(gameObject.name + ": i am empty");
+        }
+        
+        /*{
+            ItemUI.transform.SetParent(gameObject.transform, false);
+        }*/
     }
   
 
