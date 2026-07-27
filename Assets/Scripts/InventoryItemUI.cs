@@ -9,6 +9,8 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     public Canvas inventoryCanvas;
+    private ItemSlotScript itemSlotScriptRef;
+    public InventoryItemUI inventoryItemUIInstance;
     void Awake()
     {
         iconRenderer = GetComponent<Image>();
@@ -35,6 +37,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("held");
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -48,12 +51,13 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("let go");
+        Debug.Log("block ray casts: " + canvasGroup.blocksRaycasts);
         canvasGroup.blocksRaycasts = true;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("boop");
+         
     }
     
     
