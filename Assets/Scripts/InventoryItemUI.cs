@@ -6,11 +6,18 @@ using UnityEngine.UI;
 public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {   
     private Image iconRenderer;
+    public ItemData data;
+    private ItemSlotScript slotScript;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     public Canvas inventoryCanvas;
-    private ItemSlotScript itemSlotScriptRef;
     public InventoryItemUI inventoryItemUIInstance;
+    /*
+    private ItemSlotScript previousSlot;
+    private ItemSlotScript currentSlot;
+    public ItemSlotScript PreviousSlot => previousSlot;
+    public ItemSlotScript CurrentSlot => currentSlot;
+*/
     void Awake()
     {
         iconRenderer = GetComponent<Image>();
@@ -26,23 +33,22 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     public void Initialize(ItemData itemData)
     {   
+        data = itemData;
         iconRenderer.sprite = itemData.itemIcon;
+ 
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {   
-        Debug.Log("clicked");
-    }
+     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("held");
-
+ 
     }
 
     public void OnDrag(PointerEventData eventData)
     {   
-        Debug.Log("dragged");
         rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor;
         canvasGroup.blocksRaycasts = false;
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
@@ -50,8 +56,6 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("let go");
-        Debug.Log("block ray casts: " + canvasGroup.blocksRaycasts);
         canvasGroup.blocksRaycasts = true;
     }
 
