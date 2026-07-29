@@ -10,8 +10,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private InventoryItemUI itemUI = null;
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
     public ItemType ItemType{ get {return allowedType;}}
-    private ItemSlotScript previousSlot;
-    private ItemSlotScript currentSlot;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,14 +19,15 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     void Awake()
     {
-        currentSlot = this;
-        previousSlot = currentSlot;
+    
     }
 
     // Update is called once per frame
     void Update()
     {   
-    
+        if(itemUI)
+        Debug.Log(allowedType + gameObject.name + " " + itemUI);
+ 
     }
 
     public ItemType AllowedType(ItemType allowedSlot)
@@ -36,41 +36,35 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         return allowedType;
     }
 
-    public InventoryItemUI CarriedItem(InventoryItemUI item)
+    public InventoryItemUI SetItem(InventoryItemUI item)
     {   
         if(item != null)
         {
             itemUI = item;
+            itemUI.currentSlot = this;
+            Debug.Log(itemUI.currentSlot);
             return itemUI;
         }
-        return null;             
+        return itemUI;       
     }
-
-    public void NotifySlot()
-    {   
-    
-        Debug.Log(gameObject.name + itemUI);
-        currentSlot.ItemUI = itemUI;
-        previousSlot.ItemUI = null;   
-           
-        Debug.Log("Current " + currentSlot.name);
-        Debug.Log("Previous " + previousSlot.name);
-        Debug.Log(gameObject.name + itemUI);
-    
-    }
-
+ 
     public void OnDrop(PointerEventData eventData)
     {   
         Debug.Log(allowedType);
-/*
-        ItemSlotScript previousSlot = eventData.pointerDrag.GetComponent<InventoryItemUI>().PreviousSlot;
-        ItemSlotScript currentSlot = eventData.pointerDrag.GetComponent<InventoryItemUI>().CurrentSlot;
- */
+ 
+        if(ItemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
+        {
+            SetItem(eventData.pointerDrag.GetComponent<InventoryItemUI>());
+            eventData.pointerDrag.transform.SetParent(transform, false);
+            eventData.pointerDrag.transform.SetAsLastSibling();
 
+            RectTransform itemRect = eventData.pointerDrag.GetComponent<RectTransform>();
+            itemRect.anchoredPosition = Vector2.zero;
+        }
+        
+        /*
         if(itemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
         {   
- 
-        
             //current slot will be this
             //make itemui null on previous slot
             eventData.pointerDrag.transform.SetParent(transform, false);
@@ -80,7 +74,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             RectTransform itemRect = eventData.pointerDrag.GetComponent<RectTransform>();
             itemRect.anchoredPosition = Vector2.zero;
                                                                                    
-            NotifySlot();
+        
 
              //Debug.Log(itemUI.GetComponent<RectTransform>().anchoredPosition);
             //Debug.Log(ItemUI.transform.localPosition);
@@ -91,7 +85,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         }
        
         
-        /*{
+        {
             ItemUI.transform.SetParent(gameObject.transform, false);
         }*/
     }

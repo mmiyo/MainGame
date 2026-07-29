@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject inventoryRow;
     [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
-
+    public ItemSlotScript Slot => slot;
     private void Awake()
     {   
         inventoryChild = transform.GetChild(0).gameObject;
@@ -87,7 +87,7 @@ public class InventoryManager : MonoBehaviour
             if(slot.ItemUI == null && slot.ItemType == itemData.itemType)
             {   
                 Instantiate(itemData, slot);
-                slot.CarriedItem(ui);
+                slot.SetItem(ui);
                 break;
             }
             else

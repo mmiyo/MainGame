@@ -7,23 +7,21 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 {   
     private Image iconRenderer;
     public ItemData data;
-    private ItemSlotScript slotScript;
+    private GameObject slot;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     public Canvas inventoryCanvas;
-    public InventoryItemUI inventoryItemUIInstance;
-    /*
-    private ItemSlotScript previousSlot;
-    private ItemSlotScript currentSlot;
-    public ItemSlotScript PreviousSlot => previousSlot;
-    public ItemSlotScript CurrentSlot => currentSlot;
-*/
+    public InventoryItemUI inventoryItemUIInstance;    
+    private InventoryManager inventoryManager;
+    public ItemSlotScript currentSlot;
     void Awake()
     {
         iconRenderer = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        
     }
+
     void Start()
     {
         
@@ -49,6 +47,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     public void OnDrag(PointerEventData eventData)
     {   
+        slot.GetComponent<ItemSlotScript>().SetItem(null);// this stupid dookie head doesnt know what its reference is
         rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor;
         canvasGroup.blocksRaycasts = false;
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
