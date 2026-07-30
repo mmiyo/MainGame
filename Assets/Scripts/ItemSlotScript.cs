@@ -10,7 +10,10 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private InventoryItemUI itemUI = null;
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
     public ItemType ItemType{ get {return allowedType;}}
-
+    /*
+    public ItemSlotScript previousSlot;
+    public ItemSlotScript currentSlot;
+*/
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,15 +22,16 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     void Awake()
     {
-    
+        //previousSlot = currentSlot;
     }
 
     // Update is called once per frame
     void Update()
     {   
-        if(itemUI)
+       // Debug.Log(itemUI);
+       /* if(itemUI)
         Debug.Log(allowedType + gameObject.name + " " + itemUI);
- 
+        */
     }
 
     public ItemType AllowedType(ItemType allowedSlot)
@@ -37,29 +41,44 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
 
     public InventoryItemUI SetItem(InventoryItemUI item)
-    {   
+    {                
+
         if(item != null)
-        {
-            itemUI = item;
+        {   /*
+            previousSlot.itemUI = null;
+            currentSlot.itemUI = item;
+
+            return currentSlot.itemUI;
+             */
+        
+            itemUI = item; //switch slot to inv ui?
+            itemUI.previousSlot = null;
             itemUI.currentSlot = this;
-            Debug.Log(itemUI.currentSlot);
+            Debug.Log("current slot: " + itemUI.currentSlot);
             return itemUI;
+             
+        }
+        else
+        {
+            itemUI = null;
         }
         return itemUI;       
     }
  
     public void OnDrop(PointerEventData eventData)
     {   
-        Debug.Log(allowedType);
+         Debug.Log(allowedType + " " + gameObject.name + " ");
  
         if(ItemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
-        {
+        {   
             SetItem(eventData.pointerDrag.GetComponent<InventoryItemUI>());
             eventData.pointerDrag.transform.SetParent(transform, false);
             eventData.pointerDrag.transform.SetAsLastSibling();
 
             RectTransform itemRect = eventData.pointerDrag.GetComponent<RectTransform>();
             itemRect.anchoredPosition = Vector2.zero;
+                    Debug.Log("previous slot " + ItemUI.previousSlot);
+
         }
         
         /*

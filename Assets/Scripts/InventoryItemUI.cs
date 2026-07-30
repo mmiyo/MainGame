@@ -14,15 +14,25 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public InventoryItemUI inventoryItemUIInstance;    
     private InventoryManager inventoryManager;
     public ItemSlotScript currentSlot;
+    public ItemSlotScript previousSlot;
+
+    
     void Awake()
     {
         iconRenderer = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        inventoryManager = FindFirstObjectByType<InventoryManager>();
+       
         
     }
 
     void Start()
+    {
+        
+    }
+
+    void Update()
     {
         
     }
@@ -36,22 +46,23 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
  
     }
 
+     public void OnBeginDrag(PointerEventData eventData)
+    {
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {   
-     }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
- 
     }
 
     public void OnDrag(PointerEventData eventData)
     {   
-        slot.GetComponent<ItemSlotScript>().SetItem(null);// this stupid dookie head doesnt know what its reference is
-        rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor;
+        rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor; 
         canvasGroup.blocksRaycasts = false;
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
+        currentSlot.GetComponent<ItemSlotScript>().SetItem(null); 
     }
+
+    
 
     public void OnEndDrag(PointerEventData eventData)
     {

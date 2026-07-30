@@ -23,6 +23,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
     public ItemSlotScript Slot => slot;
+    public InventoryManager invInstance;
     private void Awake()
     {   
         inventoryChild = transform.GetChild(0).gameObject;
@@ -31,9 +32,7 @@ public class InventoryManager : MonoBehaviour
         rowLimit.Add(ItemType.Curio, 5);
         rowLimit.Add(ItemType.Consumable, 4);
         rowLimit.Add(ItemType.Throwable, 4);
-        rowLimit.Add(ItemType.Skill, 3);
-
-          
+        rowLimit.Add(ItemType.Skill, 3);          
     }
 
     private void Start()
@@ -80,7 +79,6 @@ public class InventoryManager : MonoBehaviour
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
-
         inventoryData.Add(itemData);
         foreach(ItemSlotScript slot in generatedSlots)
         {   
