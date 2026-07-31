@@ -92,7 +92,7 @@ public class InventoryManager : MonoBehaviour
             {   
                 continue;
             }
-         }
+        }
     }
     
     private void Instantiate(ItemData data, ItemSlotScript emptySlot)
@@ -107,7 +107,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         
+        
     }
 }
 
