@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46df7fcacae590c43bd28170a18c2392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItemUI
+  data: {fileID: 0}
+  item: {fileID: 5618197709553429063, guid: fc14089d4f0ae4346826b16927459fb8, type: 3}
   inventoryCanvas: {fileID: 0}
+  currentSlot: {fileID: 0}
+  previousSlot: {fileID: 0}
 --- !u!222 &6474345826919000135
 CanvasRenderer:
   m_ObjectHideFlags: 0

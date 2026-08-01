@@ -50,7 +50,7 @@ public class InventoryManager : MonoBehaviour
 
         isOpen = !isOpen;
         inventoryChild.SetActive(isOpen);
- 
+
     }
 
     private void GenerateRows(ItemType rowType)
@@ -73,7 +73,7 @@ public class InventoryManager : MonoBehaviour
             slotCounter++;
             slot.AllowedType(slotType);
             generatedSlots.Add(slot);
-            
+
         }
     }
 
@@ -102,6 +102,7 @@ public class InventoryManager : MonoBehaviour
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = data.itemName;
         ui.Initialize(data);
+        
     }
 
     // Update is called once per frame

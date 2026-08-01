@@ -4,7 +4,14 @@ using UnityEngine;
 public class PickUpScript : MonoBehaviour, IInteractable
 {   
     public ItemData itemData;
+    private MeshRenderer meshRenderer;
+
     private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+    
+    void Start()
     {
     }
     public void Interaction(PlayerManager player)
@@ -12,6 +19,7 @@ public class PickUpScript : MonoBehaviour, IInteractable
         //Debug.Log("gng");
         //if(inventoryManager)
         player.inventoryManager.AddToInventory(itemData, player);
+        Destroy(gameObject);
     }
 
     public void Highlight()

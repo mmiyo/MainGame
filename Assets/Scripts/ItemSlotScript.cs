@@ -19,6 +19,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     void Awake()
     {
+        
     }
 
     // Update is called once per frame
@@ -35,7 +36,6 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     public InventoryItemUI SetItem(InventoryItemUI item)
     {                
-
         if(item != null)
         {   
             itemUI = item;  
@@ -51,7 +51,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
  
     public void OnDrop(PointerEventData eventData)
     {   
-         Debug.Log(allowedType + " " + gameObject.name + " ");
+        //Debug.Log(allowedType + " " + gameObject.name + " ");
  
         if(ItemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
         {   
@@ -62,11 +62,15 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             RectTransform itemRect = eventData.pointerDrag.GetComponent<RectTransform>();
             itemRect.anchoredPosition = Vector2.zero;
             
-            Debug.Log("current slot: " + itemUI.currentSlot);
-            Debug.Log("previous slot " + ItemUI.previousSlot);
+            //play sound
+            //Debug.Log("current slot: " + itemUI.currentSlot);
+            //Debug.Log("previous slot " + ItemUI.previousSlot);
 
         }
-        
+        else
+        {
+            //item swap logic here :D
+        }
     }
   
 

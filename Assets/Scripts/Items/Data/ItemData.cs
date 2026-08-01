@@ -8,6 +8,7 @@ public abstract class ItemData : ScriptableObject
     public ElementType elementType;
     public Rarity rarity;
     public ItemType itemType;
+    public GameObject itemPrefab;
 }
 
     public enum Rarity { Common, Rare, Epic, Legendary, Mythical };

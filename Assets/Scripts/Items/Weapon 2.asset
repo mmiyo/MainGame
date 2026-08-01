@@ -17,7 +17,7 @@ MonoBehaviour:
   elementType: 2
   rarity: 4
   itemType: 0
+  itemPrefab: {fileID: 919132149155446097, guid: d83b442e0cb4e044bb1d33660b097367, type: 3}
   attackSpeed: 2
   damage: 50
   weaponType: 0
-  weaponPrefab: {fileID: 3015948461191231894, guid: 2393ca802655b0e488f0b136497443f1, type: 3}
