@@ -25,7 +25,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     // Update is called once per frame
     void Update()
     {   
-        Debug.Log(gameObject.name + itemUI);
+        // Debug.Log(gameObject.name + itemUI);
     }
 
     public ItemType AllowedType(ItemType allowedSlot)
@@ -60,7 +60,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {   
         DropType dropType = DropStateManager(eventData);
-         
+        
         switch(dropType)
         {
             case DropType.Drop:

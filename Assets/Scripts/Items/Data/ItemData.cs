@@ -9,7 +9,7 @@ public abstract class ItemData : ScriptableObject
     public Rarity rarity;
     public ItemType itemType;
     public GameObject itemPrefab;
-    public int maxStacks;
+    public bool isStackable;
     public bool isUpgradeable;
 }
 

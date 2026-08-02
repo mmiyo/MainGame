@@ -17,7 +17,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public ItemSlotScript previousSlot;
     public InventoryItemUI DraggedItem => draggedItem;
     public GameObject Item => item;
-    private int itemCount;
+    public int itemCount;
  
     void Awake()
     {
@@ -65,7 +65,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
         currentSlot.GetComponent<ItemSlotScript>().SetItem(null); 
 
-        Debug.Log("Dragged item is : " + draggedItem);
+        // Debug.Log("Dragged item is : " + draggedItem);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -78,7 +78,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
         canvasGroup.blocksRaycasts = true;
 
-        Debug.Log("gone " + draggedItem);
+        // Debug.Log("gone " + draggedItem);
         //play sound
     }
 
