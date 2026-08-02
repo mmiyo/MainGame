@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public abstract class ItemData : ScriptableObject
 {   
+    [SerializeField] private int itemID;
     public string itemName;
     public Sprite itemIcon;
     public ElementType elementType;
@@ -11,6 +12,7 @@ public abstract class ItemData : ScriptableObject
     public GameObject itemPrefab;
     public bool isStackable;
     public bool isUpgradeable;
+    public int ID => itemID;
 }
 
     public enum Rarity { Common, Rare, Epic, Legendary, Mythical };

@@ -17,7 +17,6 @@ public class InventoryManager : MonoBehaviour
     private ItemSlotScript slot;
     private List<ItemData> inventoryData = new();
     private List<ItemSlotScript> generatedSlots = new ();
-    private HashSet<ItemData> duplicateItems = new ();
     Dictionary<ItemType, int> rowLimit = new();
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private GameObject inventoryContainer;
@@ -90,8 +89,7 @@ public class InventoryManager : MonoBehaviour
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
         inventoryData.Add(itemData);
-        bool duplicateItem = inventoryData.Any(inventoryData => !duplicateItems.Add(inventoryData));
-
+ 
         foreach(ItemSlotScript slot in generatedSlots)
         {   
             if(slot.ItemUI == null && slot.ItemType == itemData.itemType)
@@ -100,14 +98,12 @@ public class InventoryManager : MonoBehaviour
                 slot.SetItem(ui);
                 break;
             }
-            if(duplicateItem && itemData.isStackable)
-            {   
-               // Debug.Log("duplicate item picked up, this is stackable too");
-               // Debug.Log(itemData.itemName + " " + ui.itemCount);
-                return;
-                
-                //ui.itemCount++;
+            else if(slot.ItemUI != null && slot.ItemUI.data.ID == itemData.ID)
+            {
+                Debug.Log("u got a dupe");
             }
+            //check if itemData exists
+            //what if the condition is the if and the default drop on slot is else
             else
             {   
                 continue;
@@ -128,10 +124,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(ItemData item in inventoryData)
-        {
-            Debug.Log(item.itemName + " " + ui.itemCount);
-        }
+         
     }
 }
 
