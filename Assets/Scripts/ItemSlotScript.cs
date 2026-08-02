@@ -48,33 +48,46 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         }
         return itemUI;       
     }
- 
+    
+    private enum DropType //state machine of doom and despair miyo edition™
+    {   
+        Idle,
+        Drop,
+        Merge,
+        Swap,
+
+    }    
     public void OnDrop(PointerEventData eventData)
     {   
-        //Debug.Log(allowedType + " " + gameObject.name + " "); 
-        if(ItemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
-        {   
-            SetItem(eventData.pointerDrag.GetComponent<InventoryItemUI>());
-            eventData.pointerDrag.transform.SetParent(transform, false);
-            eventData.pointerDrag.transform.SetAsLastSibling();
-
-            RectTransform itemRect = eventData.pointerDrag.GetComponent<RectTransform>();
-            itemRect.anchoredPosition = Vector2.zero;
-            
-            //play sound
-            //Debug.Log("current slot: " + itemUI.currentSlot);
-            //Debug.Log("previous slot " + ItemUI.previousSlot);
-
-        }
-        else
+        DropType dropType = DropStateManager(eventData);
+         
+        switch(dropType)
         {
-            //item swap logic here :D
+            case DropType.Drop:
+            DropEmpty(eventData);
+            break;
         }
     }
-  
 
-     
-    
+    private DropType DropStateManager(PointerEventData cursorData)
+    {   
+        if(ItemUI == null && cursorData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
+        {   
+            return DropType.Drop;
+        }
 
+        return DropType.Idle;
+        
+    }
+
+    private void DropEmpty(PointerEventData dropData)
+    {
+        SetItem(dropData.pointerDrag.GetComponent<InventoryItemUI>());
+        dropData.pointerDrag.transform.SetParent(transform, false);
+        dropData.pointerDrag.transform.SetAsLastSibling();
+
+        RectTransform itemRect = dropData.pointerDrag.GetComponent<RectTransform>();
+        itemRect.anchoredPosition = Vector2.zero;
+    }
 
 }
