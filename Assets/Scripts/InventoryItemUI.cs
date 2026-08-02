@@ -17,7 +17,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public ItemSlotScript previousSlot;
     public InventoryItemUI DraggedItem => draggedItem;
     public GameObject Item => item;
-    public int itemCount;
+    public int itemCount = 1;
  
     void Awake()
     {
@@ -34,6 +34,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     void Update()
     {
+        Debug.Log(itemCount);
         
     }
 

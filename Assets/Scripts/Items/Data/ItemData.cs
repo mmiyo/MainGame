@@ -12,6 +12,7 @@ public abstract class ItemData : ScriptableObject
     public GameObject itemPrefab;
     public bool isStackable;
     public bool isUpgradeable;
+    public int maxStack;
     public int ID => itemID;
 }
 

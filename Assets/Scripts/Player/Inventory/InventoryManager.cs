@@ -15,7 +15,7 @@ public class InventoryManager : MonoBehaviour
     private InventoryRowScript row;
     private InventoryItemUI ui;
     private ItemSlotScript slot;
-    private List<ItemData> inventoryData = new();
+    [SerializeField] private List<ItemData> inventoryData = new();
     private List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
     [SerializeField] private Canvas mainCanvas;
@@ -27,6 +27,8 @@ public class InventoryManager : MonoBehaviour
     public InventoryManager invInstance;
     private void Awake()
     {   
+        itemSlotPrefab.GetComponent<ItemSlotScript>().inventoryManager = this;
+
         inventoryChild = transform.GetChild(0).gameObject;
         //inv rows
         rowLimit.Add(ItemType.Weapon, 3);
@@ -34,6 +36,7 @@ public class InventoryManager : MonoBehaviour
         rowLimit.Add(ItemType.Consumable, 4);
         rowLimit.Add(ItemType.Throwable, 4);
         rowLimit.Add(ItemType.Skill, 3);          
+
     }
 
     private void Start()
@@ -44,10 +47,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void RemoveItem(ItemData itemToRemove)
+    {
+        Debug.Log("item to be removed is " + itemToRemove);
+        //CHANGE THIS: its supposed to remove the itemdata linked to the dropped itemui
+        //maybe even change the logic on how item is added to inventorydata so that the added data
+        //inside the list is linked to the ui object
+    }
+
     public void OpenInventory(InputAction.CallbackContext context)
     {   
         if (!context.performed)
-        {
+        {   
             ui.gameObject.SetActive(true);
             return;
         }
@@ -88,22 +99,21 @@ public class InventoryManager : MonoBehaviour
 
     public void AddToInventory(ItemData itemData, PlayerManager player)
     {   
-        inventoryData.Add(itemData);
- 
         foreach(ItemSlotScript slot in generatedSlots)
         {   
             if(slot.ItemUI == null && slot.ItemType == itemData.itemType)
             {   
+                inventoryData.Add(itemData);
                 Instantiate(itemData, slot);
                 slot.SetItem(ui);
                 break;
             }
-            else if(slot.ItemUI != null && slot.ItemUI.data.ID == itemData.ID)
+            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == itemData.ID)
             {
                 Debug.Log("u got a dupe");
+                slot.ItemUI.itemCount++;
+                break;
             }
-            //check if itemData exists
-            //what if the condition is the if and the default drop on slot is else
             else
             {   
                 continue;
@@ -124,7 +134,10 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         
+        foreach(ItemData item in inventoryData)
+        {
+            Debug.Log(item.itemName);
+        }
     }
 }
 

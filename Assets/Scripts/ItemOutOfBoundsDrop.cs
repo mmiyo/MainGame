@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
 {   
+    [SerializeField] private InventoryManager inventoryManager;
     private InventoryItemUI itemUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-    }
+     }
 
     void Start()
     {
@@ -23,10 +24,11 @@ public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {   
         itemUI = eventData.pointerDrag.GetComponent<InventoryItemUI>();
-
+ 
+        inventoryManager.RemoveItem(itemUI.data);
         Instantiate(itemUI.DraggedItem.Item);
         Destroy(itemUI.DraggedItem.gameObject);
-             
+  
     }
     
 }

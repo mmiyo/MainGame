@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {   
+    public InventoryManager inventoryManager;
     private ItemType allowedType;    
     private InventoryItemUI itemUI = null;
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
