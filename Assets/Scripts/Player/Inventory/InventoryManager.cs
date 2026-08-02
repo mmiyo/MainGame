@@ -46,10 +46,15 @@ public class InventoryManager : MonoBehaviour
     public void OpenInventory(InputAction.CallbackContext context)
     {   
         if (!context.performed)
-        return;
+        {
+            ui.gameObject.SetActive(true);
+            return;
+        }
 
         isOpen = !isOpen;
         inventoryChild.SetActive(isOpen);
+        ui.gameObject.SetActive(isOpen);
+        ui.canvasGroup.blocksRaycasts = true;
 
     }
 

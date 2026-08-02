@@ -8,7 +8,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     private Image iconRenderer;
     public ItemData data;
     private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
     [SerializeField] private GameObject item;
     private InventoryManager inventoryManager;
     private InventoryItemUI draggedItem;
@@ -17,6 +17,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public ItemSlotScript previousSlot;
     public InventoryItemUI DraggedItem => draggedItem;
     public GameObject Item => item;
+    private int itemCount;
  
     void Awake()
     {

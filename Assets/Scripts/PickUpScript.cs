@@ -6,7 +6,7 @@ public class PickUpScript : MonoBehaviour, IInteractable
     public ItemData itemData;
     private MeshRenderer meshRenderer;
 
-    private void Awake()
+    private void Awake()    
     {
         meshRenderer = GetComponent<MeshRenderer>();
     }

@@ -51,8 +51,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
  
     public void OnDrop(PointerEventData eventData)
     {   
-        //Debug.Log(allowedType + " " + gameObject.name + " ");
- 
+        //Debug.Log(allowedType + " " + gameObject.name + " "); 
         if(ItemUI == null && eventData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
         {   
             SetItem(eventData.pointerDrag.GetComponent<InventoryItemUI>());

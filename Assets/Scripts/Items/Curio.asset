@@ -18,3 +18,5 @@ MonoBehaviour:
   rarity: 3
   itemType: 1
   itemPrefab: {fileID: 919132149155446097, guid: c676172949dcc24409cd9a0236ad4beb, type: 3}
+  maxStacks: 1
+  isUpgradeable: 1

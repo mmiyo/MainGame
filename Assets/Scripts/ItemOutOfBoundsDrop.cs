@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
 {   
-    private InventoryItemUI itemUI; // why is u a null reference stoopid
-    
+    private InventoryItemUI itemUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
