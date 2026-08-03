@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {   
+    //get a reference to item script here so they can be linked
     private Image iconRenderer;
     public ItemData data;
     private RectTransform rectTransform;
@@ -17,7 +18,9 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public ItemSlotScript previousSlot;
     public InventoryItemUI DraggedItem => draggedItem;
     public GameObject Item => item;
-    public int itemCount = 1;
+    public int itemCount;
+    [SerializeField] private ItemScript itemScript;
+    public ItemScript ItemScript => itemScript;
  
     void Awake()
     {
@@ -43,7 +46,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void Initialize(ItemData itemData)
     {   
         data = itemData;
-        item.GetComponent<PickUpScript>().itemData = itemData;
+        item.GetComponent<ItemScript>().itemData = itemData;
         iconRenderer.sprite = itemData.itemIcon;
     }
 

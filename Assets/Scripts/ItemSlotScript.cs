@@ -91,4 +91,8 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         itemRect.anchoredPosition = Vector2.zero;
     }
 
+    private void DropMerge(PointerEventData dropData)
+    {
+        
+    }
 }

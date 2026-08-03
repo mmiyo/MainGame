@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Consumable
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableData
   itemID: 1
-  itemName: Healing Pot
+  itemName: blob
   itemIcon: {fileID: 21300000, guid: 48b2d44f10a2340418fd3ea8f8833fde, type: 3}
   elementType: 0
   rarity: 1
@@ -21,4 +21,4 @@ MonoBehaviour:
   itemPrefab: {fileID: 0}
   isStackable: 1
   isUpgradeable: 0
-  itemCount: 
+  maxStack: 0

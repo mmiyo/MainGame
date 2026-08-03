@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 
-public class PickUpScript : MonoBehaviour, IInteractable
+public class ItemScript : MonoBehaviour, IInteractable
 {   
+    private InventoryEntry inventoryEntry;
     public ItemData itemData;
     private MeshRenderer meshRenderer;
+    private int count;
 
     private void Awake()    
     {
@@ -16,10 +18,10 @@ public class PickUpScript : MonoBehaviour, IInteractable
     }
     public void Interaction(PlayerManager player)
     {   
-        //Debug.Log("gng");
-        //if(inventoryManager)
-        player.inventoryManager.AddToInventory(itemData, player);
+        inventoryEntry = new();
+        player.inventoryManager.AddToInventory(inventoryEntry.entry(itemData));
         Destroy(gameObject);
+        count++;
     }
 
     public void Highlight()

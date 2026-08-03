@@ -15,7 +15,7 @@ public class InventoryManager : MonoBehaviour
     private InventoryRowScript row;
     private InventoryItemUI ui;
     private ItemSlotScript slot;
-    [SerializeField] private List<ItemData> inventoryData = new();
+    [SerializeField] public List<InventoryEntry> inventoryData = new();
     private List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
     [SerializeField] private Canvas mainCanvas;
@@ -47,12 +47,13 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void RemoveItem(ItemData itemToRemove)
+    public void RemoveItem(ItemScript itemToRemove)
     {
-        Debug.Log("item to be removed is " + itemToRemove);
+        Debug.Log("item to be removed is " + itemToRemove.itemData.itemName);
         //CHANGE THIS: its supposed to remove the itemdata linked to the dropped itemui
         //maybe even change the logic on how item is added to inventorydata so that the added data
         //inside the list is linked to the ui object
+        //OR change this to a list of itemui instead of itemdata lmaolol
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -97,21 +98,21 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddToInventory(ItemData itemData, PlayerManager player)
+    public void AddToInventory(InventoryEntry item)
     {   
         foreach(ItemSlotScript slot in generatedSlots)
         {   
-            if(slot.ItemUI == null && slot.ItemType == itemData.itemType)
+            if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
-                inventoryData.Add(itemData);
-                Instantiate(itemData, slot);
+                inventoryData.Add(item);
+                Instantiate(item.data, slot);
                 slot.SetItem(ui);
                 break;
             }
-            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == itemData.ID)
+            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == item.data.ID)
             {
                 Debug.Log("u got a dupe");
-                slot.ItemUI.itemCount++;
+                
                 break;
             }
             else
@@ -134,9 +135,9 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(ItemData item in inventoryData)
+        foreach(InventoryEntry item in inventoryData)
         {
-            Debug.Log(item.itemName);
+            Debug.Log(item.data.itemName);
         }
     }
 }
