@@ -1,10 +1,10 @@
 using UnityEngine;
 
+[System.Serializable]
 public class InventoryEntry 
 {   
     public ItemData data;
-    private InventoryManager inventoryManager;
-    public InventoryEntry entry(ItemData itemData)
+    public InventoryEntry Entry(ItemData itemData)
     {   
         data = itemData;
         return this;

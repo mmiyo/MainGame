@@ -21,6 +21,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public int itemCount;
     [SerializeField] private ItemScript itemScript;
     public ItemScript ItemScript => itemScript;
+    public InventoryEntry inventoryEntry;
  
     void Awake()
     {
@@ -38,7 +39,8 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     void Update()
     {
         Debug.Log(itemCount);
-        
+        Debug.Log(inventoryEntry.data.itemName);    
+         
     }
 
     // Update is called once per frame 
@@ -48,6 +50,8 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         data = itemData;
         item.GetComponent<ItemScript>().itemData = itemData;
         iconRenderer.sprite = itemData.itemIcon;
+        Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)

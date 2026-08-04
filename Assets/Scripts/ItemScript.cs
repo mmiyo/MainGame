@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ItemScript : MonoBehaviour, IInteractable
 {   
-    private InventoryEntry inventoryEntry;
+    public InventoryEntry inventoryEntry;
     public ItemData itemData;
     private MeshRenderer meshRenderer;
     private int count;
@@ -19,7 +19,12 @@ public class ItemScript : MonoBehaviour, IInteractable
     public void Interaction(PlayerManager player)
     {   
         inventoryEntry = new();
-        player.inventoryManager.AddToInventory(inventoryEntry.entry(itemData));
+        inventoryEntry.Entry(itemData);
+        
+        Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
+
+
+        player.inventoryManager.AddToInventory(inventoryEntry);
         Destroy(gameObject);
         count++;
     }

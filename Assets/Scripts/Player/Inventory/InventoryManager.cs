@@ -47,13 +47,9 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void RemoveItem(ItemScript itemToRemove)
-    {
-        Debug.Log("item to be removed is " + itemToRemove.itemData.itemName);
-        //CHANGE THIS: its supposed to remove the itemdata linked to the dropped itemui
-        //maybe even change the logic on how item is added to inventorydata so that the added data
-        //inside the list is linked to the ui object
-        //OR change this to a list of itemui instead of itemdata lmaolol
+    public void RemoveItem(InventoryEntry itemToRemove)
+    {   
+ 
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -100,12 +96,13 @@ public class InventoryManager : MonoBehaviour
 
     public void AddToInventory(InventoryEntry item)
     {   
+        Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {   
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
                 inventoryData.Add(item);
-                Instantiate(item.data, slot);
+                Instantiate(item, slot);
                 slot.SetItem(ui);
                 break;
             }
@@ -122,13 +119,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    private void Instantiate(ItemData data, ItemSlotScript emptySlot)
+    private void Instantiate(InventoryEntry entry, ItemSlotScript emptySlot)
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
+        ui.inventoryEntry = entry;
         ui.transform.SetParent(emptySlot.transform, false);
-        ui.name = data.itemName;
-        ui.Initialize(data);
+        ui.name = entry.data.itemName;
+        ui.Initialize(entry.data);
         
     }
 
