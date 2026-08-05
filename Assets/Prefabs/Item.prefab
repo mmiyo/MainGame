@@ -71,8 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUpScript
   inventoryEntry:
-    data: {fileID: 0}
-  itemData: {fileID: 0}
+    data: {fileID: 11400000, guid: f21930d1584f37f4f98a54dfe9bc66e1, type: 2}
+    itemCount: 1
+  itemData: {fileID: 11400000, guid: f21930d1584f37f4f98a54dfe9bc66e1, type: 2}
   item: {fileID: 5618197709553429063}
 --- !u!54 &6671705316277274820
 Rigidbody:

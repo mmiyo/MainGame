@@ -20,6 +20,7 @@ public class DefaultSkills : MonoBehaviour
 
     public void Propel(InputAction.CallbackContext context)
     {   
+        if(context.performed)
         isPropelling = true;
          
         if(context.canceled)
@@ -37,7 +38,7 @@ public class DefaultSkills : MonoBehaviour
         if(isPropelling && statusManager.CurrentFuel > 0)
         {
             fComp_rigidbody.AddForce(UnityEngine.Vector3.up * propellingPower, ForceMode.Force);
-            fComp_rigidbody.useGravity = false;
+             
 
             statusManager.DrainFuel(25f * Time.deltaTime);
             

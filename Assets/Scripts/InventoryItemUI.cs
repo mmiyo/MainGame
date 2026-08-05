@@ -47,7 +47,6 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     {   
         data = entry.data;
         item.GetComponent<ItemScript>().itemData = entry.data;
-        
         item.GetComponent<ItemScript>().inventoryEntry = entry;
         iconRenderer.sprite = entry.data.itemIcon;
         Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());

@@ -94,7 +94,7 @@ public class PlayerManager : MonoBehaviour
         camRight.Normalize();
 
         UnityEngine.Vector3 move = camForward * mov_movementInput.y + camRight * mov_movementInput.x;
-        mComp_rigidbody.AddForce(move.normalized * speed, ForceMode.Impulse);
+        mComp_rigidbody.AddForce(move.normalized * speed, ForceMode.Acceleration);
 
     }
 

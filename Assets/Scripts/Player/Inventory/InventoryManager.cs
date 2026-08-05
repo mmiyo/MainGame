@@ -49,12 +49,17 @@ public class InventoryManager : MonoBehaviour
 
     public void RemoveItem(InventoryEntry itemToRemove)
     {   
-        
-        
-        ui.Item.GetComponent<ItemScript>().inventoryEntry = itemToRemove;
-        ui.Item.name = ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName;
-        Instantiate(ui.Item);
+        GameObject sceneObject = Instantiate(ui.Item);
+        ItemScript objectScript = sceneObject.GetComponent<ItemScript>();
 
+        objectScript.inventoryEntry = itemToRemove;
+        objectScript.name = objectScript.inventoryEntry.data.itemName;
+        objectScript.inventoryEntry.data = itemToRemove.data;
+          
+        Destroy(ui.gameObject);
+        
+        inventoryData.Remove(itemToRemove);
+/*
         Debug.Log("the item to be removed is the " + itemToRemove.data.itemName);
         Debug.Log("removing " + itemToRemove.data.itemName + " with hash code " + itemToRemove.GetHashCode());
 
@@ -62,11 +67,8 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("the hash code of the item to instantiate is " + ui.inventoryEntry.GetHashCode());
         Debug.Log("Instantiating " + ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName);
         Debug.Log("The hash code of the newly instantiated item is " + ui.Item.GetComponent<ItemScript>().inventoryEntry.GetHashCode());
-
-        inventoryData.Remove(itemToRemove);
-
-
-
+*/
+        Debug.Log(objectScript.inventoryEntry.data.itemName);
         //Instantiate(itemToRemove.data.itemPrefab);
  
         //Instantiate(ui.Item);
@@ -126,15 +128,20 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {   
-            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == item.data.ID)
+            if(slot.ItemUI != null && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.isStackable && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.ID == item.data.ID)
             {
                 Debug.Log("u got a dupe");
-                
+                slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.itemCount++;
+                Debug.Log(item.itemCount);
+
                 break;
             }
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
+                 
                 inventoryData.Add(item);
+                Debug.Log(item.itemCount);
+
                 Instantiate(item, slot);
                 slot.SetItem(ui);
                 break;
@@ -161,11 +168,13 @@ public class InventoryManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        /*
         foreach(InventoryEntry item in inventoryData)
         {
             Debug.Log("Inventory items :" + item.data.itemName + " " + item.GetHashCode());
-        }
+        }*/
+        
     }
 }
 

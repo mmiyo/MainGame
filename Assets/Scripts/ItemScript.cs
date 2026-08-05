@@ -19,15 +19,12 @@ public class ItemScript : MonoBehaviour, IInteractable
     }
     public void Interaction(PlayerManager player)
     {   
-        if(inventoryEntry == null)
-        {
-            inventoryEntry = new();
-            inventoryEntry.Entry(itemData);
-        }
         
-        
-        Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
+        inventoryEntry = new();
+        inventoryEntry.Entry(itemData);
 
+        inventoryEntry.itemCount++;
+        Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
 
         player.inventoryManager.AddToInventory(inventoryEntry);
         Destroy(gameObject);
