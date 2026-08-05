@@ -17,7 +17,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public ItemSlotScript currentSlot;
     public ItemSlotScript previousSlot;
     public InventoryItemUI DraggedItem => draggedItem;
-    public GameObject Item => item;
+    public GameObject Item {get {return item;} set {item = value;}}
     public int itemCount;
     [SerializeField] private ItemScript itemScript;
     public ItemScript ItemScript => itemScript;
@@ -37,19 +37,19 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     }
 
     void Update()
-    {
-        Debug.Log(itemCount);
-        Debug.Log(inventoryEntry.data.itemName);    
+    {  
          
     }
 
     // Update is called once per frame 
 
-    public void Initialize(ItemData itemData)
+    public void Initialize(InventoryEntry entry)
     {   
-        data = itemData;
-        item.GetComponent<ItemScript>().itemData = itemData;
-        iconRenderer.sprite = itemData.itemIcon;
+        data = entry.data;
+        item.GetComponent<ItemScript>().itemData = entry.data;
+        
+        item.GetComponent<ItemScript>().inventoryEntry = entry;
+        iconRenderer.sprite = entry.data.itemIcon;
         Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
 
     }

@@ -25,11 +25,13 @@ public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {   
         itemUI = eventData.pointerDrag.GetComponent<InventoryItemUI>();
-      //  Debug.Log(itemUI.ItemScript.inventoryEntry.data.itemName);  
+        
+        Debug.Log("The item dropped out is " + itemUI.inventoryEntry.data.name + " with the hash " + itemUI.inventoryEntry.GetHashCode());
 
-        inventoryManager.RemoveItem(itemUI.inventoryEntry); // get a ref to pass here so u can remove that from InventoryManager
-        Instantiate(itemUI.DraggedItem.Item);
-        Destroy(itemUI.DraggedItem.gameObject);
+        inventoryManager.RemoveItem(itemUI.inventoryEntry); 
+        Destroy(itemUI.gameObject);
+        //Instantiate(itemUI.inventoryEntry);
+        //Destroy(itemUI.DraggedItem.gameObject);
   
     }
     

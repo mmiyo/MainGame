@@ -4,6 +4,7 @@ using UnityEngine;
 public class InventoryEntry 
 {   
     public ItemData data;
+
     public InventoryEntry Entry(ItemData itemData)
     {   
         data = itemData;

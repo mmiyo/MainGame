@@ -6,6 +6,7 @@ public class ItemScript : MonoBehaviour, IInteractable
     public InventoryEntry inventoryEntry;
     public ItemData itemData;
     private MeshRenderer meshRenderer;
+    public GameObject item;
     private int count;
 
     private void Awake()    
@@ -18,8 +19,12 @@ public class ItemScript : MonoBehaviour, IInteractable
     }
     public void Interaction(PlayerManager player)
     {   
-        inventoryEntry = new();
-        inventoryEntry.Entry(itemData);
+        if(inventoryEntry == null)
+        {
+            inventoryEntry = new();
+            inventoryEntry.Entry(itemData);
+        }
+        
         
         Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
 

@@ -49,7 +49,34 @@ public class InventoryManager : MonoBehaviour
 
     public void RemoveItem(InventoryEntry itemToRemove)
     {   
+        
+        
+        ui.Item.GetComponent<ItemScript>().inventoryEntry = itemToRemove;
+        ui.Item.name = ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName;
+        Instantiate(ui.Item);
+
+        Debug.Log("the item to be removed is the " + itemToRemove.data.itemName);
+        Debug.Log("removing " + itemToRemove.data.itemName + " with hash code " + itemToRemove.GetHashCode());
+
+        Debug.Log("The item to instantiate is " + ui.inventoryEntry.data.itemName);
+        Debug.Log("the hash code of the item to instantiate is " + ui.inventoryEntry.GetHashCode());
+        Debug.Log("Instantiating " + ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName);
+        Debug.Log("The hash code of the newly instantiated item is " + ui.Item.GetComponent<ItemScript>().inventoryEntry.GetHashCode());
+
+        inventoryData.Remove(itemToRemove);
+
+
+
+        //Instantiate(itemToRemove.data.itemPrefab);
  
+        //Instantiate(ui.Item);
+        //Instantiate an item script using itemOutOfBound's pointereventdata 
+        //and use itemToREmove's entry for its stats
+
+        //add logic here latuhhh
+        //OutOfBoundsDrop will instantiate
+        //that same entry again so when u pick it up its data is the same yeayeayeayeayea
+        
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -99,6 +126,12 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {   
+            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == item.data.ID)
+            {
+                Debug.Log("u got a dupe");
+                
+                break;
+            }
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
                 inventoryData.Add(item);
@@ -106,12 +139,7 @@ public class InventoryManager : MonoBehaviour
                 slot.SetItem(ui);
                 break;
             }
-            if(slot.ItemUI != null && slot.ItemUI.data.isStackable && slot.ItemUI.data.ID == item.data.ID)
-            {
-                Debug.Log("u got a dupe");
-                
-                break;
-            }
+             
             else
             {   
                 continue;
@@ -123,10 +151,11 @@ public class InventoryManager : MonoBehaviour
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
+        ui.Item.GetComponent<ItemScript>().itemData = entry.data;
         ui.inventoryEntry = entry;
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = entry.data.itemName;
-        ui.Initialize(entry.data);
+        ui.Initialize(entry);
         
     }
 
@@ -135,7 +164,7 @@ public class InventoryManager : MonoBehaviour
     {
         foreach(InventoryEntry item in inventoryData)
         {
-            Debug.Log(item.data.itemName);
+            Debug.Log("Inventory items :" + item.data.itemName + " " + item.GetHashCode());
         }
     }
 }

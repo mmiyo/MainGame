@@ -18,7 +18,7 @@ MonoBehaviour:
   elementType: 0
   rarity: 1
   itemType: 2
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 919132149155446097, guid: c676172949dcc24409cd9a0236ad4beb, type: 3}
   isStackable: 1
   isUpgradeable: 0
   maxStack: 0
