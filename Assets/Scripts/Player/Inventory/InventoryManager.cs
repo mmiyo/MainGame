@@ -46,20 +46,25 @@ public class InventoryManager : MonoBehaviour
             GenerateRows(i);  
         }
     }
-
+    
+    GameObject sceneObject;
+    ItemScript objectScript;
     public void RemoveItem(InventoryEntry itemToRemove)
     {   
-        GameObject sceneObject = Instantiate(ui.Item);
-        ItemScript objectScript = sceneObject.GetComponent<ItemScript>();
+        sceneObject = Instantiate(ui.Item);
+        objectScript = sceneObject.GetComponent<ItemScript>();
 
         objectScript.inventoryEntry = itemToRemove;
+
         objectScript.name = objectScript.inventoryEntry.data.itemName;
         objectScript.inventoryEntry.data = itemToRemove.data;
-          
+        Debug.Log(objectScript.inventoryEntry.itemCount);
         Destroy(ui.gameObject);
         
         inventoryData.Remove(itemToRemove);
-/*
+
+        //DO NOT REMOVE THESE THEY CAN STILL BE REUSED FOR TRACKING ITEMS
+        /*
         Debug.Log("the item to be removed is the " + itemToRemove.data.itemName);
         Debug.Log("removing " + itemToRemove.data.itemName + " with hash code " + itemToRemove.GetHashCode());
 
@@ -67,18 +72,8 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("the hash code of the item to instantiate is " + ui.inventoryEntry.GetHashCode());
         Debug.Log("Instantiating " + ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName);
         Debug.Log("The hash code of the newly instantiated item is " + ui.Item.GetComponent<ItemScript>().inventoryEntry.GetHashCode());
-*/
-        Debug.Log(objectScript.inventoryEntry.data.itemName);
-        //Instantiate(itemToRemove.data.itemPrefab);
- 
-        //Instantiate(ui.Item);
-        //Instantiate an item script using itemOutOfBound's pointereventdata 
-        //and use itemToREmove's entry for its stats
-
-        //add logic here latuhhh
-        //OutOfBoundsDrop will instantiate
-        //that same entry again so when u pick it up its data is the same yeayeayeayeayea
-        
+        */
+            
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -131,17 +126,13 @@ public class InventoryManager : MonoBehaviour
             if(slot.ItemUI != null && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.isStackable && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.ID == item.data.ID)
             {
                 Debug.Log("u got a dupe");
-                slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.itemCount++;
-                Debug.Log(item.itemCount);
-
+                slot.ItemUI.inventoryEntry.itemCount++;
                 break;
             }
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
-                 
-                inventoryData.Add(item);
                 Debug.Log(item.itemCount);
-
+                inventoryData.Add(item);                 
                 Instantiate(item, slot);
                 slot.SetItem(ui);
                 break;

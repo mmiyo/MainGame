@@ -29,7 +29,7 @@ public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
         Debug.Log("The item dropped out is " + itemUI.inventoryEntry.data.name + " with the hash " + itemUI.inventoryEntry.GetHashCode());
 
         inventoryManager.RemoveItem(itemUI.inventoryEntry); 
-        Destroy(itemUI.gameObject);
+         
         //Instantiate(itemUI.inventoryEntry);
         //Destroy(itemUI.DraggedItem.gameObject);
   
