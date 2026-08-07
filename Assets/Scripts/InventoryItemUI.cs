@@ -29,6 +29,9 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         inventoryManager = FindFirstObjectByType<InventoryManager>();
+        item = itemScript.gameObject;
+
+        //item = inventoryEntry.data.worldItem;
     }
 
     void Start()
@@ -46,8 +49,10 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void Initialize(InventoryEntry entry)
     {   
         data = entry.data;
-        item.GetComponent<ItemScript>().itemData = entry.data;
-        item.GetComponent<ItemScript>().inventoryEntry = entry;
+        //this is the main culprit changing the direct reference, need to find a way to make it NOT change
+        //the prefab directly and change the one on runtime instead
+         // item.GetComponent<ItemScript>().itemData = entry.data;
+        //item.GetComponent<ItemScript>().inventoryEntry = entry;
         iconRenderer.sprite = entry.data.itemIcon;
         Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
 
@@ -87,6 +92,12 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
         // Debug.Log("gone " + draggedItem);
         //play sound
+    }
+
+    public void SewerSlide(InventoryEntry itemToDelete)
+    {   
+        inventoryManager.RemoveItem(itemToDelete); 
+        Destroy(this.gameObject);
     }
 
     public void OnDrop(PointerEventData eventData)

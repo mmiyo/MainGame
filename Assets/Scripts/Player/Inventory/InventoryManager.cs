@@ -59,7 +59,7 @@ public class InventoryManager : MonoBehaviour
         objectScript.name = objectScript.inventoryEntry.data.itemName;
         objectScript.inventoryEntry.data = itemToRemove.data;
         Debug.Log(objectScript.inventoryEntry.itemCount);
-        Destroy(ui.gameObject);
+        Debug.Log(ui.data.itemName);
         
         inventoryData.Remove(itemToRemove);
 
@@ -80,7 +80,6 @@ public class InventoryManager : MonoBehaviour
     {   
         if (!context.performed)
         {   
-            ui.gameObject.SetActive(true);
             return;
         }
 
@@ -122,13 +121,15 @@ public class InventoryManager : MonoBehaviour
     {   
         Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
-        {   
-            if(slot.ItemUI != null && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.isStackable && slot.ItemUI.Item.GetComponent<ItemScript>().inventoryEntry.data.ID == item.data.ID)
+        {       
+            //this if is accesing ui's direct reference to the prefab instead of the instantiated item's prefab reference
+            if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)
             {
                 Debug.Log("u got a dupe");
                 slot.ItemUI.inventoryEntry.itemCount++;
                 break;
             }
+            
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
                 Debug.Log(item.itemCount);
@@ -149,11 +150,12 @@ public class InventoryManager : MonoBehaviour
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
-        ui.Item.GetComponent<ItemScript>().itemData = entry.data;
+        //ui.Item.GetComponent<ItemScript>().itemData = entry.data; // this is also changing the prefab itself, not the instance
         ui.inventoryEntry = entry;
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = entry.data.itemName;
         ui.Initialize(entry);
+        //set the instantieted prefab data to entry's data, instead of the direct prefab ref
         
     }
 

@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7486684661a9f18468389fa078d416fb, type: 3}
   m_Name: Weapon
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  itemID: 2
   itemName: Stabby Stabby
   itemIcon: {fileID: 21300000, guid: deb6277843ba2434aaf361996e095289, type: 3}
   elementType: 4
   rarity: 4
+  itemType: 0
+  itemPrefab: {fileID: 0}
+  isStackable: 0
+  isUpgradeable: 0
+  maxStack: 0
   attackSpeed: 20
   damage: 1000000
   weaponType: 0
-  weaponPrefab: {fileID: 919132149155446097, guid: 757908dbfc694ea469ef5e3fdf3f35c9, type: 3}

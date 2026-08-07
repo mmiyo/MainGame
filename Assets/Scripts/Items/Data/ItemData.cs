@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public abstract class ItemData : ScriptableObject
 {   
     [SerializeField] private int itemID;
+    //[SerializeField] public GameObject worldItem;
     public string itemName;
     public Sprite itemIcon;
     public ElementType elementType;
@@ -14,9 +15,11 @@ public abstract class ItemData : ScriptableObject
     public bool isUpgradeable;
     public int maxStack;
     public int ID => itemID;
+
 }
 
     public enum Rarity { Common, Rare, Epic, Legendary, Mythical };
     public enum ElementType { None, Ignis, Nihil, Celestial, Toxic, Frost, Aqua } 
     public enum ItemType { Weapon, Curio, Consumable, Throwable, Skill }
     
+ 
