@@ -10,21 +10,23 @@ using System.Linq;
  
 public class InventoryManager : MonoBehaviour
 {   
-    private bool isOpen = false;
-    private GameObject inventoryChild;
-    private InventoryRowScript row;
-    private InventoryItemUI ui;
-    private ItemSlotScript slot;
-    [SerializeField] public List<InventoryEntry> inventoryData = new();
-    private List<ItemSlotScript> generatedSlots = new ();
-    Dictionary<ItemType, int> rowLimit = new();
+    [SerializeField] private PlayerManager player;
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private GameObject inventoryContainer;
     [SerializeField] private GameObject inventoryRow;
     [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
+    [SerializeField] public List<InventoryEntry> inventoryData = new();
+    private List<ItemSlotScript> generatedSlots = new ();
+    Dictionary<ItemType, int> rowLimit = new();
+    private bool isOpen = false;
+    private GameObject inventoryChild;
+    private InventoryRowScript row;
+    private InventoryItemUI ui;
+    private ItemSlotScript slot;
     public ItemSlotScript Slot => slot;
     public InventoryManager invInstance;
+
     private void Awake()
     {   
         itemSlotPrefab.GetComponent<ItemSlotScript>().inventoryManager = this;
@@ -51,7 +53,8 @@ public class InventoryManager : MonoBehaviour
     ItemScript objectScript;
     public void RemoveItem(InventoryEntry itemToRemove)
     {   
-        sceneObject = Instantiate(ui.Item);
+        sceneObject = Instantiate(ui.Item, player.transform);
+        sceneObject.transform.SetParent(null);
         objectScript = sceneObject.GetComponent<ItemScript>();
 
         objectScript.inventoryEntry = itemToRemove;
@@ -122,7 +125,6 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {       
-            //this if is accesing ui's direct reference to the prefab instead of the instantiated item's prefab reference
             if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)
             {
                 Debug.Log("u got a dupe");
@@ -150,12 +152,10 @@ public class InventoryManager : MonoBehaviour
     {   
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
-        //ui.Item.GetComponent<ItemScript>().itemData = entry.data; // this is also changing the prefab itself, not the instance
         ui.inventoryEntry = entry;
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = entry.data.itemName;
         ui.Initialize(entry);
-        //set the instantieted prefab data to entry's data, instead of the direct prefab ref
         
     }
 

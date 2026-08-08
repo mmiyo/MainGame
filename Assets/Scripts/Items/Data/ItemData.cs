@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public abstract class ItemData : ScriptableObject
 {   
     [SerializeField] private int itemID;
-    //[SerializeField] public GameObject worldItem;
     public string itemName;
     public Sprite itemIcon;
     public ElementType elementType;

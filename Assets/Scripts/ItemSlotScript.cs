@@ -67,14 +67,33 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             case DropType.Drop:
             DropEmpty(eventData);
             break;
+
+            case DropType.Merge:
+            DropMerge(eventData);
+            break;
+
+            case DropType.Swap:
+            DropSwap(eventData);
+            break;
+            
         }
     }
 
     private DropType DropStateManager(PointerEventData cursorData)
     {   
-        if(ItemUI == null && cursorData.pointerDrag.GetComponent<InventoryItemUI>().data.itemType == allowedType)
+        InventoryEntry itemDragged = cursorData.pointerDrag.GetComponent<InventoryItemUI>().inventoryEntry;
+
+        if(ItemUI == null && itemDragged.data.itemType == allowedType)
         {   
             return DropType.Drop;
+        }
+        if(ItemUI != null && itemDragged.data.isStackable && itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)
+        {
+            return DropType.Merge;
+        }
+        if(ItemUI != null)
+        {
+            return DropType.Swap;
         }
 
         return DropType.Idle;
@@ -92,6 +111,11 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
 
     private void DropMerge(PointerEventData dropData)
+    {
+        
+    }
+
+    private void DropSwap(PointerEventData dropData)
     {
         
     }

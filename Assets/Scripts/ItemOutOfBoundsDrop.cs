@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
 {   
     [SerializeField] private InventoryManager inventoryManager;
@@ -29,8 +30,7 @@ public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
         Debug.Log("The item dropped out is " + itemUI.inventoryEntry.data.name + " with the hash " + itemUI.inventoryEntry.GetHashCode());
         itemUI.SewerSlide(itemUI.inventoryEntry);
           
-        //Instantiate(itemUI.inventoryEntry);
-        //Destroy(itemUI.DraggedItem.gameObject);
+        
   
     }
     

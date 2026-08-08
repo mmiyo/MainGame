@@ -19,7 +19,7 @@ MonoBehaviour:
   rarity: 4
   itemType: 0
   itemPrefab: {fileID: 0}
-  isStackable: 0
+  isStackable: 1
   isUpgradeable: 0
   maxStack: 0
   attackSpeed: 20

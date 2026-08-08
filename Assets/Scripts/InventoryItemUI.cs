@@ -49,10 +49,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void Initialize(InventoryEntry entry)
     {   
         data = entry.data;
-        //this is the main culprit changing the direct reference, need to find a way to make it NOT change
-        //the prefab directly and change the one on runtime instead
-         // item.GetComponent<ItemScript>().itemData = entry.data;
-        //item.GetComponent<ItemScript>().inventoryEntry = entry;
+       
         iconRenderer.sprite = entry.data.itemIcon;
         Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
 
