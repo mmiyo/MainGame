@@ -51,20 +51,21 @@ public class InventoryManager : MonoBehaviour
     
     GameObject sceneObject;
     ItemScript objectScript;
-    public void RemoveItem(InventoryEntry itemToRemove)
+    public void ThrowAway(InventoryEntry itemToThrow)
     {   
         sceneObject = Instantiate(ui.Item, player.transform);
         sceneObject.transform.SetParent(null);
         objectScript = sceneObject.GetComponent<ItemScript>();
 
-        objectScript.inventoryEntry = itemToRemove;
+        objectScript.inventoryEntry = itemToThrow;
 
         objectScript.name = objectScript.inventoryEntry.data.itemName;
-        objectScript.inventoryEntry.data = itemToRemove.data;
-        Debug.Log(objectScript.inventoryEntry.itemCount);
-        Debug.Log(ui.data.itemName);
-        
-        inventoryData.Remove(itemToRemove);
+        Debug.Log(objectScript.inventoryEntry.data.itemName);
+
+        objectScript.inventoryEntry.data = itemToThrow.data;
+        Debug.Log("this item's item count is " + " " + objectScript.inventoryEntry.itemCount);
+         
+        inventoryData.Remove(itemToThrow);
 
         //DO NOT REMOVE THESE THEY CAN STILL BE REUSED FOR TRACKING ITEMS
         /*
@@ -75,8 +76,7 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("the hash code of the item to instantiate is " + ui.inventoryEntry.GetHashCode());
         Debug.Log("Instantiating " + ui.Item.GetComponent<ItemScript>().inventoryEntry.data.itemName);
         Debug.Log("The hash code of the newly instantiated item is " + ui.Item.GetComponent<ItemScript>().inventoryEntry.GetHashCode());
-        */
-            
+        */  
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -119,25 +119,31 @@ public class InventoryManager : MonoBehaviour
 
         }
     }
-
+    
     public void AddToInventory(InventoryEntry item)
     {   
-        Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
+        int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;
+        int incomingItemCount = item.itemCount;
+        int totalCount = slotItemCount + incomingItemCount;
+        int itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;
+
+        //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {       
-            if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)
-            {
+            //amazing display of logic (forgive me >.<)
+            if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.itemCount != slot.ItemUI.inventoryEntry.data.maxStack
+            && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)  
+            {   
                 Debug.Log("u got a dupe");
-                slot.ItemUI.inventoryEntry.itemCount++;
+                slot.ItemUI.inventoryEntry.itemCount += item.itemCount;
+
+                //subtract item from item count everytime its added to slot ui
                 break;
             }
             
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
-                Debug.Log(item.itemCount);
-                inventoryData.Add(item);                 
-                Instantiate(item, slot);
-                slot.SetItem(ui);
+                CreateItemUI(item, slot);
                 break;
             }
              
@@ -146,6 +152,14 @@ public class InventoryManager : MonoBehaviour
                 continue;
             }
         }
+    }
+
+    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot)
+    {
+        Debug.Log(entry.itemCount);
+        inventoryData.Add(entry);                 
+        Instantiate(entry, slot);
+        slot.SetItem(ui);
     }
     
     private void Instantiate(InventoryEntry entry, ItemSlotScript emptySlot)

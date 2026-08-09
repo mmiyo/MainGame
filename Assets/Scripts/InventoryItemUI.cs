@@ -51,7 +51,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         data = entry.data;
        
         iconRenderer.sprite = entry.data.itemIcon;
-        Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
+        //Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
 
     }
 
@@ -91,9 +91,9 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         //play sound
     }
 
-    public void SewerSlide(InventoryEntry itemToDelete)
+    public void SewerSlide(InventoryEntry throwtspls)
     {   
-        inventoryManager.RemoveItem(itemToDelete); 
+        inventoryManager.ThrowAway(throwtspls); 
         Destroy(this.gameObject);
     }
 

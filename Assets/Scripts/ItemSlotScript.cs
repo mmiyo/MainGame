@@ -111,8 +111,9 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
 
     private void DropMerge(PointerEventData dropData)
-    {
-        
+    {   
+        Debug.Log("same shi");
+        ItemUI.currentSlot = dropData.pointerDrag.GetComponent<InventoryItemUI>().currentSlot;
     }
 
     private void DropSwap(PointerEventData dropData)

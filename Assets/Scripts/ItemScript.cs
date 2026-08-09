@@ -26,7 +26,7 @@ public class ItemScript : MonoBehaviour, IInteractable
             inventoryEntry.Entry(itemData);
         }
          
-        Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
+        //Debug.Log("Itemscript interaction function " + inventoryEntry.GetHashCode());
 
         player.inventoryManager.AddToInventory(inventoryEntry);
         Destroy(gameObject);

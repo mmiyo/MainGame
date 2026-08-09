@@ -64,13 +64,12 @@ public class PlayerManager : MonoBehaviour
 
     private void HandleInteraction()
     {   
-        Debug.Log("player interact key pressed");
         if(Physics.Raycast(mComp_cinemachineCamera.transform.position, mComp_cinemachineCamera.transform.forward, out RaycastHit hitInfo, 3f, mComp_interactableObjectLayer))
         {   
             if(hitInfo.collider.GetComponent<IInteractable>() != null)
             {   
                 hitInfo.collider.GetComponent<IInteractable>().Interaction(this);
-                Debug.Log("i am touching the " + hitInfo.collider.name);
+                //Debug.Log("i am touching the " + hitInfo.collider.name);
             }
 
             if(hitInfo.collider.GetComponent<IInteractable>() == null)

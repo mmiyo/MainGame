@@ -27,7 +27,7 @@ public class ItemOutOfBoundsDrop : MonoBehaviour, IDropHandler
     {   
         itemUI = eventData.pointerDrag.GetComponent<InventoryItemUI>();
         
-        Debug.Log("The item dropped out is " + itemUI.inventoryEntry.data.name + " with the hash " + itemUI.inventoryEntry.GetHashCode());
+        //Debug.Log("The item dropped out is " + itemUI.inventoryEntry.data.name + " with the hash " + itemUI.inventoryEntry.GetHashCode());
         itemUI.SewerSlide(itemUI.inventoryEntry);
           
         
