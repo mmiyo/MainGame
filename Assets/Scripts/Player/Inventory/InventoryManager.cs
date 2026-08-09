@@ -119,14 +119,10 @@ public class InventoryManager : MonoBehaviour
 
         }
     }
-    
+    int itemSurplus;
     public void AddToInventory(InventoryEntry item)
     {   
-        int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;
-        int incomingItemCount = item.itemCount;
-        int totalCount = slotItemCount + incomingItemCount;
-        int itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;
-
+ 
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {       
@@ -134,6 +130,11 @@ public class InventoryManager : MonoBehaviour
             if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.itemCount != slot.ItemUI.inventoryEntry.data.maxStack
             && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)  
             {   
+                int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;
+                int incomingItemCount = item.itemCount;
+                int totalCount = slotItemCount + incomingItemCount;
+                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;
+
                 Debug.Log("u got a dupe");
                 slot.ItemUI.inventoryEntry.itemCount += item.itemCount;
 
@@ -143,7 +144,7 @@ public class InventoryManager : MonoBehaviour
             
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
-                CreateItemUI(item, slot);
+                CreateItemUI(item, slot, itemSurplus);
                 break;
             }
              
@@ -154,7 +155,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot)
+    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot, int itemCount)
     {
         Debug.Log(entry.itemCount);
         inventoryData.Add(entry);                 
