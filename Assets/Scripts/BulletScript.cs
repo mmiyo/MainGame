@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 public class BulletScript : MonoBehaviour
 {   
-    
     private float bulletSpeed = 25f;
     public float BulletSpeed { get {return bulletSpeed;} }
 

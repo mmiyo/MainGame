@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour
         objectScript.inventoryEntry = itemToThrow;
 
         objectScript.name = objectScript.inventoryEntry.data.itemName;
-        Debug.Log(objectScript.inventoryEntry.data.itemName);
+        //Debug.Log(objectScript.inventoryEntry.data.itemName);
 
         objectScript.inventoryEntry.data = itemToThrow.data;
         Debug.Log("this item's item count is " + " " + objectScript.inventoryEntry.itemCount);
@@ -119,46 +119,58 @@ public class InventoryManager : MonoBehaviour
 
         }
     }
-    int itemSurplus;
+
+    int itemSurplus = 0;
     public void AddToInventory(InventoryEntry item)
     {   
- 
-        //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
+          //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {       
             //amazing display of logic (forgive me >.<)
             if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.itemCount != slot.ItemUI.inventoryEntry.data.maxStack
             && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)  
             {   
-                int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;
-                int incomingItemCount = item.itemCount;
-                int totalCount = slotItemCount + incomingItemCount;
-                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;
+                
+                int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;  
+                int incomingItemCount = item.itemCount; 
+                int totalCount = slotItemCount + incomingItemCount;  
+                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;  
 
-                Debug.Log("u got a dupe");
                 slot.ItemUI.inventoryEntry.itemCount += item.itemCount;
+                if(slot.ItemUI.inventoryEntry.itemCount > slot.ItemUI.inventoryEntry.data.maxStack)
+                {   
+                    Debug.Log("existing slot: " + slot.ItemUI.inventoryEntry.itemCount);
+                    Debug.Log("extra: " + itemSurplus);
+                    slot.ItemUI.inventoryEntry.itemCount -= itemSurplus;
+                    item.itemCount = itemSurplus;
+                     
+                    continue;
+                }
 
+                Debug.Log(item.itemCount);
+ 
                 //subtract item from item count everytime its added to slot ui
                 break;
             }
-            
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
-                CreateItemUI(item, slot, itemSurplus);
+                CreateItemUI(item, slot);
+                Debug.Log(item.itemCount);
+
                 break;
             }
-             
             else
             {   
                 continue;
             }
         }
     }
-
-    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot, int itemCount)
-    {
-        Debug.Log(entry.itemCount);
-        inventoryData.Add(entry);                 
+    //itemcount isnt instantiating the right thing pls fix ez
+    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot)
+    {   
+         
+        inventoryData.Add(entry);          
+        //entry.itemCount = itemCount;
         Instantiate(entry, slot);
         slot.SetItem(ui);
     }
@@ -177,6 +189,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        //Debug.Log("surplus" + " " + itemSurplus);
         /*
         foreach(InventoryEntry item in inventoryData)
         {
