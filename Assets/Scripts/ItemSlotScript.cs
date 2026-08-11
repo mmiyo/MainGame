@@ -3,12 +3,15 @@ using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {   
     public InventoryManager inventoryManager;
     private ItemType allowedType;    
     private InventoryItemUI itemUI = null;
+    private int count;
+    public TMP_Text itemCounter;
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
     public ItemType ItemType{ get {return allowedType;}}
    
@@ -20,7 +23,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     void Awake()
     {
-        
+        //count = ItemUI.inventoryEntry.itemCount;
     }
 
     // Update is called once per frame
@@ -49,7 +52,21 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         }
         return itemUI;       
     }
-    
+
+    public void ChangeValue()
+    {
+        itemCounter.SetText(ItemUI.inventoryEntry.itemCount.ToString());
+    }
+
+    /*
+    public static event Action<int> OnItemCountUpdate;
+    public void UpdateItemCount(int newCount)
+    {   
+        count = newCount;
+        OnItemCountUpdate?.Invoke(count);
+    }
+    */
+
     private enum DropType //state machine of doom and despair miyo edition™
     {   
         Idle,

@@ -119,11 +119,11 @@ public class InventoryManager : MonoBehaviour
 
         }
     }
-
+    
     int itemSurplus = 0;
     public void AddToInventory(InventoryEntry item)
     {   
-          //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
+        //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
         foreach(ItemSlotScript slot in generatedSlots)
         {       
             //amazing display of logic (forgive me >.<)
@@ -133,10 +133,11 @@ public class InventoryManager : MonoBehaviour
                 
                 int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;  
                 int incomingItemCount = item.itemCount; 
-                int totalCount = slotItemCount + incomingItemCount;  
-                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;  
+                int totalCount = slotItemCount + incomingItemCount;
 
+                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;  
                 slot.ItemUI.inventoryEntry.itemCount += item.itemCount;
+
                 if(slot.ItemUI.inventoryEntry.itemCount > slot.ItemUI.inventoryEntry.data.maxStack)
                 {   
                     Debug.Log("existing slot: " + slot.ItemUI.inventoryEntry.itemCount);
@@ -148,14 +149,15 @@ public class InventoryManager : MonoBehaviour
                 }
 
                 Debug.Log(item.itemCount);
- 
-                //subtract item from item count everytime its added to slot ui
+                slot.ChangeValue();
                 break;
             }
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
                 CreateItemUI(item, slot);
                 Debug.Log(item.itemCount);
+                slot.ChangeValue();
+
 
                 break;
             }
@@ -165,10 +167,9 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-    //itemcount isnt instantiating the right thing pls fix ez
+
     private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot)
     {   
-         
         inventoryData.Add(entry);          
         //entry.itemCount = itemCount;
         Instantiate(entry, slot);

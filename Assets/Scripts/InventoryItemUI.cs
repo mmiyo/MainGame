@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {   
-    //get a reference to item script here so they can be linked
     private Image iconRenderer;
     public ItemData data;
     private RectTransform rectTransform;
