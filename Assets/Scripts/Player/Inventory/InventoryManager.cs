@@ -144,20 +144,20 @@ public class InventoryManager : MonoBehaviour
                     Debug.Log("extra: " + itemSurplus);
                     slot.ItemUI.inventoryEntry.itemCount -= itemSurplus;
                     item.itemCount = itemSurplus;
-                     
+                    slot.ItemUI.updateCount.Invoke();
+
                     continue;
                 }
-
+                
+                slot.ItemUI.updateCount.Invoke();
                 Debug.Log(item.itemCount);
-                slot.ChangeValue();
                 break;
             }
             if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
             {   
                 CreateItemUI(item, slot);
                 Debug.Log(item.itemCount);
-                slot.ChangeValue();
-
+ 
 
                 break;
             }

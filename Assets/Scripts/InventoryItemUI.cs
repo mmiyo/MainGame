@@ -1,7 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {   
@@ -21,6 +23,8 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     [SerializeField] private ItemScript itemScript;
     public ItemScript ItemScript => itemScript;
     public InventoryEntry inventoryEntry;
+    [SerializeField] private TextMeshProUGUI itemCounter;
+    [SerializeField] public UnityEvent updateCount;
  
     void Awake()
     {
@@ -35,12 +39,18 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     void Start()
     {
-        
+        itemCounter.SetText(inventoryEntry.itemCount.ToString());
+
     }
 
     void Update()
-    {  
-         
+    {
+
+    }
+
+    public void UpdateCounter()
+    {
+        itemCounter.SetText(inventoryEntry.itemCount.ToString());
     }
 
     // Update is called once per frame 
@@ -48,8 +58,11 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public void Initialize(InventoryEntry entry)
     {   
         data = entry.data;
-       
         iconRenderer.sprite = entry.data.itemIcon;
+        
+        updateCount.Invoke();
+        
+
         //Debug.Log("UI entry hashcode " + inventoryEntry.GetHashCode());
 
     }
