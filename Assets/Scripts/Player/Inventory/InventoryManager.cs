@@ -123,7 +123,7 @@ public class InventoryManager : MonoBehaviour
     public void AddToInventory(InventoryEntry item)
     {   
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
-        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.ItemUI == null && s.AllowedItemType == item.data.itemType);
+        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.AllowedItemType == item.data.itemType);
         compatibleSlot.CreateOnSlot(item, compatibleSlot);
         compatibleSlot.SetItem(ui);
         ui.updateCount.Invoke();
