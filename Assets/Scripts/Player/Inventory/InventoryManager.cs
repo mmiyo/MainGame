@@ -120,60 +120,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    int itemSurplus = 0;
     public void AddToInventory(InventoryEntry item)
     {   
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
-        foreach(ItemSlotScript slot in generatedSlots)
-        {       
-            //amazing display of logic (forgive me >.<)
-            if(slot.ItemUI != null && slot.ItemUI.inventoryEntry.itemCount != slot.ItemUI.inventoryEntry.data.maxStack
-            && slot.ItemUI.inventoryEntry.data.isStackable && slot.ItemUI.inventoryEntry.data.ID == item.data.ID)  
-            {   
-                
-                int slotItemCount = slot.ItemUI.inventoryEntry.itemCount;  
-                int incomingItemCount = item.itemCount; 
-                int totalCount = slotItemCount + incomingItemCount;
+        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.AllowedItemType == item.data.itemType && s.ItemUI == null);
 
-                itemSurplus = totalCount - slot.ItemUI.inventoryEntry.data.maxStack;  
-                slot.ItemUI.inventoryEntry.itemCount += item.itemCount;
-
-                if(slot.ItemUI.inventoryEntry.itemCount > slot.ItemUI.inventoryEntry.data.maxStack)
-                {   
-                    Debug.Log("existing slot: " + slot.ItemUI.inventoryEntry.itemCount);
-                    Debug.Log("extra: " + itemSurplus);
-                    slot.ItemUI.inventoryEntry.itemCount -= itemSurplus;
-                    item.itemCount = itemSurplus;
-                    slot.ItemUI.updateCount.Invoke();
-
-                    continue;
-                }
-                
-                slot.ItemUI.updateCount.Invoke();
-                Debug.Log(item.itemCount);
-                break;
-            }
-            if(slot.ItemUI == null && slot.ItemType == item.data.itemType)
-            {   
-                CreateItemUI(item, slot);
-                Debug.Log(item.itemCount);
- 
-
-                break;
-            }
-            else
-            {   
-                continue;
-            }
-        }
+        slot.CreateOnSlot(item, compatibleSlot);
+        ui.updateCount.Invoke();
+        slot.SetItem(ui);
+        
     }
 
-    private void CreateItemUI(InventoryEntry entry, ItemSlotScript slot)
+    public void CreateItem(InventoryEntry entry, ItemSlotScript slot)
     {   
-        inventoryData.Add(entry);          
-        //entry.itemCount = itemCount;
+        inventoryData.Add(entry);    
         Instantiate(entry, slot);
-        slot.SetItem(ui);
+
     }
     
     private void Instantiate(InventoryEntry entry, ItemSlotScript emptySlot)

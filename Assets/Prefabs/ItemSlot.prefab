@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSlotScript
   inventoryManager: {fileID: 0}
+  itemUI: {fileID: 0}
 --- !u!1 &9207585585726285194
 GameObject:
   m_ObjectHideFlags: 0

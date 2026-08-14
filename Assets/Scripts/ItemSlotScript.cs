@@ -8,11 +8,14 @@ using TMPro;
 public class ItemSlotScript : MonoBehaviour, IDropHandler
 {   
     public InventoryManager inventoryManager;
-    private ItemType allowedType;    
-    private InventoryItemUI itemUI = null;
+    private ItemType allowedType;   
+    public ItemType AllowedItemType => allowedType; 
+    [SerializeField] private InventoryItemUI itemUI = null;
     private int count;
     public InventoryItemUI ItemUI {get {return itemUI;} set {itemUI = value;}}
     public ItemType ItemType{ get {return allowedType;}}
+
+    
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,13 +25,13 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     void Awake()
     {
-        //count = ItemUI.inventoryEntry.itemCount;
+        
     }
 
     // Update is called once per frame
     void Update()
     {   
-        // Debug.Log(gameObject.name + itemUI);
+        
     }
 
     public ItemType AllowedType(ItemType allowedSlot)
@@ -45,11 +48,47 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             itemUI.currentSlot = this;
             return itemUI;
         }
+      
+        return itemUI;       
+    }
+
+    public void CreateOnSlot(InventoryEntry item, ItemSlotScript slot)
+    {   
+        if(ItemUI != null)
+        {
+            addExisting(item, slot);
+        }
+        else 
+        {   
+            inventoryManager.CreateItem(item, slot);
+        }
+         
+    }
+
+    public void addExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
+    {   
+        int incomingItemCount = itemToGetCount.itemCount;
+        int slotItemCount = ItemUI.inventoryEntry.itemCount;  
+        int totalCount = slotItemCount + incomingItemCount;
+        int itemSurplus = totalCount - ItemUI.inventoryEntry.data.maxStack;  
+
+        if(slotItemCount >= ItemUI.inventoryEntry.data.maxStack )
+        {
+            Debug.Log("bleh");
+            //so the stacking logic ignores the maxSlot count again 
+            //its easier to implement it here now tho
+        }
+
         else
         {
-            itemUI = null;
+            ItemUI.inventoryEntry.itemCount += incomingItemCount;
         }
-        return itemUI;       
+         
+        Debug.Log("incoming item count: " + incomingItemCount);
+        Debug.Log("existing item count: " + ItemUI.inventoryEntry.itemCount);
+        /*
+        InventoryEntry itemEntry = ItemUI.inventoryEntry;
+        itemEntry.itemCount += extra;*/
     }
 
     private enum DropType //state machine of doom and despair miyo edition™
@@ -62,12 +101,16 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }    
     public void OnDrop(PointerEventData eventData)
     {   
+        /*
+        Debug.Log("DROPPEd ON: " + gameObject.name + " WITH INSTANCE ID " + GetInstanceID());
+        Debug.Log("ITEM UI: " + ItemUI);*/
         DropType dropType = DropStateManager(eventData);
         
         switch(dropType)
         {
             case DropType.Drop:
             DropEmpty(eventData);
+            //Debug.Log(gameObject.name + " " + ItemUI);
             break;
 
             case DropType.Merge:
@@ -84,16 +127,17 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private DropType DropStateManager(PointerEventData cursorData)
     {   
         InventoryEntry itemDragged = cursorData.pointerDrag.GetComponent<InventoryItemUI>().inventoryEntry;
-
-        if(ItemUI == null && itemDragged.data.itemType == allowedType)
+        if(itemUI == null && itemDragged.data.itemType == allowedType)
         {   
             return DropType.Drop;
         }
-        if(ItemUI != null && itemDragged.data.isStackable && itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)
-        {
+        if(itemUI != null )//&& itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)// && itemDragged.data.isStackable && itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)
+        {   
+            Debug.Log("ITEM UI EXISTS");
+
             return DropType.Merge;
         }
-        if(ItemUI != null)
+        if(itemUI != null)
         {
             return DropType.Swap;
         }
@@ -103,7 +147,8 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
 
     private void DropEmpty(PointerEventData dropData)
-    {
+    {   
+        //Debug.Log("dropped on " + ItemUI);
         SetItem(dropData.pointerDrag.GetComponent<InventoryItemUI>());
         dropData.pointerDrag.transform.SetParent(transform, false);
         dropData.pointerDrag.transform.SetAsLastSibling();
@@ -115,7 +160,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private void DropMerge(PointerEventData dropData)
     {   
         Debug.Log("same shi");
-        ItemUI.currentSlot = dropData.pointerDrag.GetComponent<InventoryItemUI>().currentSlot;
+        //ItemUI.currentSlot = dropData.pointerDrag.GetComponent<InventoryItemUI>().currentSlot;
     }
 
     private void DropSwap(PointerEventData dropData)

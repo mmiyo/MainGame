@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler 
 {   
     private Image iconRenderer;
     public ItemData data;
@@ -67,9 +67,11 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     }
 
+    
+
     public void OnBeginDrag(PointerEventData eventData)
-    {
-    }
+    {       
+     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -81,10 +83,11 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         draggedItem = eventData.pointerDrag.GetComponent<InventoryItemUI>();
 
         rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor; 
-        canvasGroup.blocksRaycasts = false;
-
+ 
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
         currentSlot.GetComponent<ItemSlotScript>().SetItem(null); 
+
+        canvasGroup.blocksRaycasts = false;
 
         // Debug.Log("Dragged item is : " + draggedItem);
     }
