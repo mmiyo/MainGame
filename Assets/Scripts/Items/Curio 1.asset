@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb9c511282561a4b8f240c5d95d3821, type: 3}
   m_Name: Curio 1
   m_EditorClassIdentifier: Assembly-CSharp::CurioData
-  itemName: 
-  itemIcon: {fileID: 0}
+  itemID: 0
+  itemName: dookie
+  itemIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   elementType: 0
   rarity: 0
-  itemType: 0
-  curioPrefab: {fileID: 0}
+  itemType: 2
+  itemPrefab: {fileID: 0}
+  isStackable: 0
+  isUpgradeable: 0
+  maxStack: 2

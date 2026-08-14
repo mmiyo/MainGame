@@ -70,8 +70,10 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     
 
     public void OnBeginDrag(PointerEventData eventData)
-    {       
-     }
+    {
+        currentSlot.SetItem(null); 
+
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -85,7 +87,7 @@ public class InventoryItemUI : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         rectTransform.anchoredPosition += eventData.delta / inventoryCanvas.scaleFactor; 
  
         gameObject.transform.SetParent(inventoryCanvas.transform, true);
-        currentSlot.GetComponent<ItemSlotScript>().SetItem(null); 
+        currentSlot.SetItem(null); 
 
         canvasGroup.blocksRaycasts = false;
 

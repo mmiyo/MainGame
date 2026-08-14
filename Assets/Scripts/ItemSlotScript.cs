@@ -41,12 +41,11 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
 
     public InventoryItemUI SetItem(InventoryItemUI item)
-    {                
+    {   
+        itemUI = item;
         if(item != null)
         {   
-            itemUI = item;  
             itemUI.currentSlot = this;
-            return itemUI;
         }
       
         return itemUI;       
@@ -54,13 +53,14 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     public void CreateOnSlot(InventoryEntry item, ItemSlotScript slot)
     {   
-        if(ItemUI != null)
+        if(ItemUI != null && ItemUI.inventoryEntry.data.ID == item.data.ID)
         {
             addExisting(item, slot);
         }
         else 
         {   
             inventoryManager.CreateItem(item, slot);
+             
         }
          
     }

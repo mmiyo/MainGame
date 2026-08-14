@@ -123,19 +123,18 @@ public class InventoryManager : MonoBehaviour
     public void AddToInventory(InventoryEntry item)
     {   
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
-        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.AllowedItemType == item.data.itemType && s.ItemUI == null);
-
-        slot.CreateOnSlot(item, compatibleSlot);
+        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.ItemUI == null && s.AllowedItemType == item.data.itemType);
+        compatibleSlot.CreateOnSlot(item, compatibleSlot);
+        compatibleSlot.SetItem(ui);
         ui.updateCount.Invoke();
-        slot.SetItem(ui);
-        
+         
     }
 
     public void CreateItem(InventoryEntry entry, ItemSlotScript slot)
-    {   
+    {       
         inventoryData.Add(entry);    
         Instantiate(entry, slot);
-
+ 
     }
     
     private void Instantiate(InventoryEntry entry, ItemSlotScript emptySlot)
@@ -143,6 +142,7 @@ public class InventoryManager : MonoBehaviour
         ui = Instantiate(itemUI).GetComponent<InventoryItemUI>();
         ui.inventoryCanvas = mainCanvas;
         ui.inventoryEntry = entry;
+ 
         ui.transform.SetParent(emptySlot.transform, false);
         ui.name = entry.data.itemName;
         ui.Initialize(entry);
