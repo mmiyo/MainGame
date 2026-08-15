@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb9c511282561a4b8f240c5d95d3821, type: 3}
   m_Name: Curio
   m_EditorClassIdentifier: Assembly-CSharp::CurioData
+  itemID: 2
   itemName: bazinga
   itemIcon: {fileID: 21300000, guid: cd8ad4caeb3230f43a62d5445871438f, type: 3}
   elementType: 3
   rarity: 3
   itemType: 1
   itemPrefab: {fileID: 919132149155446097, guid: c676172949dcc24409cd9a0236ad4beb, type: 3}
-  maxStacks: 1
+  isStackable: 0
   isUpgradeable: 1
+  maxStack: 0

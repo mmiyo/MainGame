@@ -3,6 +3,7 @@ using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using TMPro;
 
 public class ItemSlotScript : MonoBehaviour, IDropHandler
@@ -53,44 +54,50 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     public void CreateOnSlot(InventoryEntry item, ItemSlotScript slot)
     {   
-        if(ItemUI != null && ItemUI.inventoryEntry.data.ID == item.data.ID)
+        Debug.Log("Create on slot: " + slot);
+        if(ItemUI != null )
         {
-            addExisting(item, slot);
+            AddExisting(item, slot);
         }
         else 
         {   
-            inventoryManager.CreateItem(item, slot);
-             
+            inventoryManager.CreateItem(item, slot);             
         }
-         
     }
-
-    public void addExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
+    private void AddExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
     {   
+        Debug.Log("Add existing: " + newSlot);
+
         int incomingItemCount = itemToGetCount.itemCount;
         int slotItemCount = ItemUI.inventoryEntry.itemCount;  
         int totalCount = slotItemCount + incomingItemCount;
         int itemSurplus = totalCount - ItemUI.inventoryEntry.data.maxStack;  
+        
+        ItemUI.inventoryEntry.itemCount += incomingItemCount;
 
-        if(slotItemCount >= ItemUI.inventoryEntry.data.maxStack )
-        {
-            Debug.Log("bleh");
-            //so the stacking logic ignores the maxSlot count again 
-            //its easier to implement it here now tho
+        if(slotItemCount + incomingItemCount > ItemUI.inventoryEntry.data.maxStack )
+        {   
+            Debug.Log("maxed slots, add to " + newSlot);
+            itemToGetCount.itemCount = itemSurplus;
+            ItemUI.inventoryEntry.itemCount -= itemSurplus;
+            Debug.Log(itemToGetCount.itemCount);
+            inventoryManager.CreateItem(itemToGetCount, newSlot);     
         }
-
-        else
-        {
-            ItemUI.inventoryEntry.itemCount += incomingItemCount;
-        }
+        
          
-        Debug.Log("incoming item count: " + incomingItemCount);
-        Debug.Log("existing item count: " + ItemUI.inventoryEntry.itemCount);
-        /*
-        InventoryEntry itemEntry = ItemUI.inventoryEntry;
-        itemEntry.itemCount += extra;*/
+        //Debug.Log("incoming item count: " + incomingItemCount);
+        //Debug.Log("existing item count: " + ItemUI.inventoryEntry.itemCount);
+        
+       
     }
 
+    private void CreateNewStack(InventoryEntry newStack, int surplusValue, ItemSlotScript newSlot)
+    {   
+        
+        //inventoryManager.CreateItem(newStack, newSlot);
+        Debug.Log(newStack.data.itemName + " surplus count: " + surplusValue + " at the slot " + newSlot);
+    }
+    
     private enum DropType //state machine of doom and despair miyo edition™
     {   
         Idle,
@@ -99,6 +106,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         Swap,
 
     }    
+
     public void OnDrop(PointerEventData eventData)
     {   
         /*

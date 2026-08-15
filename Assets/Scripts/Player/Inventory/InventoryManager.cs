@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Linq;
+using System.Collections.ObjectModel;
  
 public class InventoryManager : MonoBehaviour
 {   
@@ -17,7 +18,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject itemSlotPrefab; 
     [SerializeField] private GameObject itemUI;
     [SerializeField] public List<InventoryEntry> inventoryData = new();
-    private List<ItemSlotScript> generatedSlots = new ();
+    public List<ItemSlotScript> generatedSlots = new ();
     Dictionary<ItemType, int> rowLimit = new();
     private bool isOpen = false;
     private GameObject inventoryChild;
@@ -123,7 +124,14 @@ public class InventoryManager : MonoBehaviour
     public void AddToInventory(InventoryEntry item)
     {   
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
-        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.AllowedItemType == item.data.itemType);
+        ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.ItemUI != null && s.ItemUI.inventoryEntry.data.ID == item.data.ID 
+        && s.ItemUI.inventoryEntry.itemCount != item.data.maxStack);
+
+        if(compatibleSlot == null)
+        {
+            compatibleSlot = generatedSlots.Find(s => s.ItemUI == null && s.AllowedItemType == item.data.itemType);
+        }
+
         compatibleSlot.CreateOnSlot(item, compatibleSlot);
         compatibleSlot.SetItem(ui);
         ui.updateCount.Invoke();
@@ -152,12 +160,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        //Debug.Log("surplus" + " " + itemSurplus);
-        /*
-        foreach(InventoryEntry item in inventoryData)
-        {
-            Debug.Log("Inventory items :" + item.data.itemName + " " + item.GetHashCode());
-        }*/
+         
         
     }
 }
