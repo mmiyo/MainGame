@@ -54,7 +54,6 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
 
     public void CreateOnSlot(InventoryEntry item, ItemSlotScript slot)
     {   
-        Debug.Log("Create on slot: " + slot);
         if(ItemUI != null )
         {
             AddExisting(item, slot);
@@ -66,7 +65,9 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     }
     private void AddExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
     {   
-        Debug.Log("Add existing: " + newSlot);
+        newSlot = inventoryManager.generatedSlots.Find(n => n.allowedType == itemToGetCount.data.itemType && n.ItemUI == null);      
+        ItemUI.updateCount.Invoke();
+        Debug.Log(newSlot + " " + newSlot.allowedType);
 
         int incomingItemCount = itemToGetCount.itemCount;
         int slotItemCount = ItemUI.inventoryEntry.itemCount;  
@@ -75,12 +76,11 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         
         ItemUI.inventoryEntry.itemCount += incomingItemCount;
 
-        if(slotItemCount + incomingItemCount > ItemUI.inventoryEntry.data.maxStack )
+        if(ItemUI.inventoryEntry.itemCount > ItemUI.inventoryEntry.data.maxStack )
         {   
-            Debug.Log("maxed slots, add to " + newSlot);
-            itemToGetCount.itemCount = itemSurplus;
             ItemUI.inventoryEntry.itemCount -= itemSurplus;
-            Debug.Log(itemToGetCount.itemCount);
+            itemToGetCount.itemCount = itemSurplus;
+            ItemUI.updateCount.Invoke();
             inventoryManager.CreateItem(itemToGetCount, newSlot);     
         }
         
@@ -91,12 +91,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
        
     }
 
-    private void CreateNewStack(InventoryEntry newStack, int surplusValue, ItemSlotScript newSlot)
-    {   
-        
-        //inventoryManager.CreateItem(newStack, newSlot);
-        Debug.Log(newStack.data.itemName + " surplus count: " + surplusValue + " at the slot " + newSlot);
-    }
+  
     
     private enum DropType //state machine of doom and despair miyo edition™
     {   
