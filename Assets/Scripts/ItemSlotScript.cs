@@ -63,10 +63,10 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             inventoryManager.CreateItem(item, slot);             
         }
     }
+    
     private void AddExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
     {   
         newSlot = inventoryManager.generatedSlots.Find(n => n.allowedType == itemToGetCount.data.itemType && n.ItemUI == null);      
-        ItemUI.updateCount.Invoke();
         Debug.Log(newSlot + " " + newSlot.allowedType);
 
         int incomingItemCount = itemToGetCount.itemCount;
@@ -81,9 +81,11 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
             ItemUI.inventoryEntry.itemCount -= itemSurplus;
             itemToGetCount.itemCount = itemSurplus;
             ItemUI.updateCount.Invoke();
-            inventoryManager.CreateItem(itemToGetCount, newSlot);     
+            inventoryManager.CreateItem(itemToGetCount, newSlot);  
         }
         
+        ItemUI.updateCount.Invoke();
+
          
         //Debug.Log("incoming item count: " + incomingItemCount);
         //Debug.Log("existing item count: " + ItemUI.inventoryEntry.itemCount);
@@ -91,8 +93,6 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
        
     }
 
-  
-    
     private enum DropType //state machine of doom and despair miyo edition™
     {   
         Idle,
@@ -134,7 +134,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
         {   
             return DropType.Drop;
         }
-        if(itemUI != null )//&& itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)// && itemDragged.data.isStackable && itemDragged.data.ID == ItemUI.inventoryEntry.data.ID)
+        if(itemUI != null )
         {   
             Debug.Log("ITEM UI EXISTS");
 
@@ -163,7 +163,7 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private void DropMerge(PointerEventData dropData)
     {   
         Debug.Log("same shi");
-        //ItemUI.currentSlot = dropData.pointerDrag.GetComponent<InventoryItemUI>().currentSlot;
+
     }
 
     private void DropSwap(PointerEventData dropData)

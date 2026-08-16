@@ -130,11 +130,17 @@ public class InventoryManager : MonoBehaviour
         if(compatibleSlot == null)
         {
             compatibleSlot = generatedSlots.Find(s => s.ItemUI == null && s.AllowedItemType == item.data.itemType);
+            compatibleSlot.CreateOnSlot(item, compatibleSlot);
+  
+        }
+        else
+        {
+            compatibleSlot.CreateOnSlot(item, compatibleSlot);
         }
 
-        compatibleSlot.CreateOnSlot(item, compatibleSlot);
-        compatibleSlot.SetItem(ui);
         ui.updateCount.Invoke();
+ 
+        
          
     }
 
@@ -142,7 +148,8 @@ public class InventoryManager : MonoBehaviour
     {       
         inventoryData.Add(entry);    
         Instantiate(entry, slot);
- 
+        slot.SetItem(ui);
+
     }
     
     private void Instantiate(InventoryEntry entry, ItemSlotScript emptySlot)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb9c511282561a4b8f240c5d95d3821, type: 3}
   m_Name: Curio
   m_EditorClassIdentifier: Assembly-CSharp::CurioData
-  itemID: 2
+  itemID: 3
   itemName: bazinga
   itemIcon: {fileID: 21300000, guid: cd8ad4caeb3230f43a62d5445871438f, type: 3}
   elementType: 3
