@@ -67,7 +67,6 @@ public class ItemSlotScript : MonoBehaviour, IDropHandler
     private void AddExisting(InventoryEntry itemToGetCount, ItemSlotScript newSlot)
     {   
         newSlot = inventoryManager.generatedSlots.Find(n => n.allowedType == itemToGetCount.data.itemType && n.ItemUI == null);      
-        Debug.Log(newSlot + " " + newSlot.allowedType);
 
         int incomingItemCount = itemToGetCount.itemCount;
         int slotItemCount = ItemUI.inventoryEntry.itemCount;  

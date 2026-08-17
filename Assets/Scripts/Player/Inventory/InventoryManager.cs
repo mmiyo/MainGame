@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Linq;
 using System.Collections.ObjectModel;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
  
 public class InventoryManager : MonoBehaviour
 {   
@@ -27,6 +29,7 @@ public class InventoryManager : MonoBehaviour
     private ItemSlotScript slot;
     public ItemSlotScript Slot => slot;
     public InventoryManager invInstance;
+    public UnityEvent inventoryFull;
 
     private void Awake()
     {   
@@ -80,6 +83,11 @@ public class InventoryManager : MonoBehaviour
         */  
     }
 
+    public void InventoryFull()
+    {
+        Debug.Log("inventory is full");
+    }
+
     public void OpenInventory(InputAction.CallbackContext context)
     {   
         if (!context.performed)
@@ -121,27 +129,33 @@ public class InventoryManager : MonoBehaviour
         }
     }
     
-    public void AddToInventory(InventoryEntry item)
+    public bool AddToInventory(InventoryEntry item)
     {   
         //Debug.Log("inventory manager addtoinv function " + item.GetHashCode());  
+        bool succesfullyAdded;
         ItemSlotScript compatibleSlot = generatedSlots.Find(s => s.ItemUI != null && s.ItemUI.inventoryEntry.data.ID == item.data.ID 
         && s.ItemUI.inventoryEntry.itemCount != item.data.maxStack);
-
-        if(compatibleSlot == null)
+        ItemSlotScript emptySlot = generatedSlots.Find(s => s.ItemUI == null && s.ItemType == item.data.itemType);
+       
+        if(compatibleSlot != null)
         {
-            compatibleSlot = generatedSlots.Find(s => s.ItemUI == null && s.AllowedItemType == item.data.itemType);
             compatibleSlot.CreateOnSlot(item, compatibleSlot);
-  
+            succesfullyAdded = true;
         }
-        else
+        else if(emptySlot != null)
+        {  
+            emptySlot.CreateOnSlot(item, emptySlot);
+            succesfullyAdded = true;
+        }
+        else 
         {
-            compatibleSlot.CreateOnSlot(item, compatibleSlot);
+            inventoryFull.Invoke();
+            succesfullyAdded = false;
         }
 
         ui.updateCount.Invoke();
+        return succesfullyAdded;
  
-        
-         
     }
 
     public void CreateItem(InventoryEntry entry, ItemSlotScript slot)
